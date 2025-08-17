@@ -3,6 +3,7 @@
 // of the ImageMetadata object after extraction.
 
 function main() {
+
     console.show();
     console.clear();
     console.writeln("--- ImageMetadata Structure Discovery ---");
@@ -25,7 +26,7 @@ function main() {
     console.writeln("=========================================");
 
     try {
-        // Step 1: Call the one function we know works.
+        // Step 1:
         let metadata = new ImageMetadata();
         metadata.ExtractMetadata(window);
         console.writeln("SUCCESS: metadata.ExtractMetadata() was called.");

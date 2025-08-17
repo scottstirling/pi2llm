@@ -16,25 +16,46 @@
 #include "./lib/chat_ui.js"
 
 /*
- * LLMCommunicator: Handles the network communication with the LLM.
- * CORRECTED to use the proper NetworkTransfer constructor.
+ * LLMCommunicator: Handles the network communication with the LLM and wraps
+ * PixInsight's NetworkTransfer object.
  */
 function LLMCommunicator(url, apiKey) {
     this.url = url;
     this.apiKey = apiKey;
 }
 
-LLMCommunicator.prototype.sendMessage = function(payload, onComplete, onError) {
+/**
+ * unicodeEscape(jsonString) needs to be run *after* JSON.stringify() to escape
+ * Unicode characters, due to limitations of JSON.strinigify() in SpiderMonkey 2014
+ * Javascript engine in PixInsight.
+ */
+function unicodeEscape(json) {
+    return json.replace(/[\u007F-\uFFFF]/g, function(chr) {
+        return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4)
+    });
+}
 
-    // formats the json with newlines and escape chars
-    // let jsonData = JSON.stringify(payload, null, 2);
 
-    // Stringify the final payload compactly, without any extra newlines or spaces.
+LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) {
+
+    // TOOD: fix issues with Unicode characters sent back to server, such as: µ and ° and ' etc.
+
+    // Try escaping Unicode chars (usually in the chat history) after JSON.stringify
+    // DEBUG
+    console.writeln("   ======== jsonData ==========   ");
+    console.writeln("jsonData: " +  JSON.stringify(payload, null, 2));
+    console.writeln("jsonData escaped: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
+    console.writeln("   ======== jsonData ==========   ");
+
+    // Stringify the payload, without any extra newlines or spaces.
     let jsonData = JSON.stringify(payload);
-    //jsonData = new ByteArray(jsonData).toURLEncoded();
+
+    // Try escaping unicode chars after stringify
+    jsonData = unicodeEscape(jsonData);
+
 
     let headers = [
-        "Content-Type: application/json;charset=UTF-8;",
+        "Content-Type: application/json; charset=utf-8",
         "Accept: application/json"
     ];
 
@@ -45,38 +66,50 @@ LLMCommunicator.prototype.sendMessage = function(payload, onComplete, onError) {
     let transfer = new NetworkTransfer;
     transfer.setCustomHTTPHeaders(headers);
     transfer.setURL(this.url);
+    transfer.setConnectionTimeout(60); // unit is seconds
 
-    console.writeln("Sending data to LLM at: " + this.url);
+    transfer.response = new ByteArray(); // raw byte array receiver
 
-    transfer.response = new ByteArray();
-
-    transfer.onDownloadDataAvailable = function( data ) {
+    transfer.onDownloadDataAvailable = function (data) {
+        console.writeln("Info: receiving data ...")
         this.response.add(data);
     };
 
-    if (!transfer.post(jsonData)) {
+    console.writeln("Sending data to LLM at: " + this.url);
+
+    if (!transfer.post(jsonData)) {  // don't ask me why but transfer.post() returns false
         console.writeln("Successfully received data from LLM. HTTP Status: " + transfer.responseCode);
 
-        //let responseString = transfer.response.toString();
-        let responseString = transfer.response.utf8ToString();
+        //let responseString = transfer.response.toString(); // NOTE: this will work for ASCII but any Unicode characters will render incorrectly
+        let responseString = transfer.response.utf8ToString(); // NOTE: decode raw byte array response from UTF-8 encoding to String (before parsing to JSON)
 
         try {
-            let responseObject = JSON.parse(responseString);
-            let messageContent = "Error: No valid choice found in LLM response.";
-            if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) {
+
+            let responseObject = JSON.parse(responseString); // now parse the decoded UTF-8 -> String to a Javascript object
+
+            let messageContent = "Error: No valid choice found in LLM response."; // set default log message as error
+            if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
                 messageContent = responseObject.choices[0].message.content;
             }
-            if (onComplete) onComplete(messageContent);
+            if (onComplete) {
+                onComplete(messageContent);
+            }
         } catch (e) {
             let errorMsg = "Error parsing LLM JSON response: " + e.message;
             console.criticalln(errorMsg);
-            if (onError) onError(errorMsg);
+            if (onError) {
+                onError(errorMsg);
+            }
         }
     } else {
         let errorMsg = "Network upload failed. HTTP Status: " + transfer.responseCode + "\nError Info: " + transfer.errorInformation;
         console.criticalln(errorMsg);
-        if (onError) onError(errorMsg);
+        if (onError) {
+            onError(errorMsg);
+        }
     }
+
+    transfer.closeConnection();
 };
 
 // =============================================================================
@@ -106,8 +139,7 @@ function pi2llmMain() {
         }
     }
 
-    // Launch the main chat UI. That's it.
-    // No more checks for open images. The UI handles that now.
+    // Launch the main chat UI.
     let chatDialog = new pi2llmChatDialog(config);
     chatDialog.execute();
 
