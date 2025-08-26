@@ -95,4 +95,4 @@ Using the assistant is a simple, interactive process.
 
 ## Feedback and Contributions
 
-This is a new tool, and we welcome your feedback! If you encounter bugs, have ideas for new features, or would like to contribute, please [open an issue](https://github.com/your-username/your-repo/issues) on our GitHub repository.
+This is a new tool, and we welcome your feedback! If you encounter bugs, have ideas for new features, or would like to contribute, please [open an issue](https://github.com/scottstirling/pi2llm/issues) on our GitHub repository.
