@@ -63,7 +63,7 @@ function main() {
 
 
     console.writeln("\n--- Probing Static Properties ---");
-    // This is a comprehensive list based on documentation and common use.
+    // This is a comprehensive list based on documentation
     probeProperty("acceleratedWebView");
     probeProperty("agentName");
     probeProperty("appDirPath");

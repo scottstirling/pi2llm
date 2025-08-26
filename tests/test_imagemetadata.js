@@ -2,6 +2,9 @@
 // A final, definitive diagnostic tool to discover the true structure
 // of the ImageMetadata object after extraction.
 
+// TODO: fix issue where ImageData does not work as a reference until/unless one of the astrometry scripts has loaded it first.
+// Either re-implement it or include it from source.
+
 function main() {
 
     console.show();

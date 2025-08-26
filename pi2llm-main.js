@@ -12,7 +12,6 @@
 
 #include "./lib/configuration.js"
 #include "./lib/extractors.js"
-#include "./lib/workspace_provider.js"
 #include "./lib/chat_ui.js"
 
 /*
@@ -38,46 +37,51 @@ function unicodeEscape(json) {
 
 LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) {
 
-    // TOOD: fix issues with Unicode characters sent back to server, such as: µ and ° and ' etc.
-
     // Try escaping Unicode chars (usually in the chat history) after JSON.stringify
     // DEBUG
     console.writeln("   ======== jsonData ==========   ");
-    console.writeln("jsonData: " +  JSON.stringify(payload, null, 2));
-    console.writeln("jsonData escaped: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
+    ///console.writeln("jsonData: " +  JSON.stringify(payload, null, 2));
+    // console.writeln("jsonData escaped: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
     console.writeln("   ======== jsonData ==========   ");
 
-    // Stringify the payload, without any extra newlines or spaces.
+    // Stringify the payload, escape quotes, trim newlines.
     let jsonData = JSON.stringify(payload);
 
-    // Try escaping unicode chars after stringify
+
+    // NOTE: Crucial fix: escape Unicode chars after SpiderMonkey's stringify
     jsonData = unicodeEscape(jsonData);
 
 
-    let headers = [
-        "Content-Type: application/json; charset=utf-8",
-        "Accept: application/json"
-    ];
+    let headers = new Array();
+    headers.push("Content-Type: application/json; charset=utf-8");
+    headers.push("Accept: application/json");
 
+    // OpenAI style "Authorization: Bearer <key>" header
     if (this.apiKey && this.apiKey.length > 0 && this.apiKey !== "no-key") {
         headers.push("Authorization: Bearer " + this.apiKey);
     }
 
     let transfer = new NetworkTransfer;
-    transfer.setCustomHTTPHeaders(headers);
+
+    if ( this.url.indexOf( "https" ) != -1 ) {
+        T.setSSL();
+    }
     transfer.setURL(this.url);
     transfer.setConnectionTimeout(60); // unit is seconds
-
-    transfer.response = new ByteArray(); // raw byte array receiver
 
     transfer.onDownloadDataAvailable = function (data) {
         console.writeln("Info: receiving data ...")
         this.response.add(data);
+        return true;
     };
+
+    transfer.response = new ByteArray(); // raw byte array response data receiver
+
+    transfer.setCustomHTTPHeaders(headers);
 
     console.writeln("Sending data to LLM at: " + this.url);
 
-    if (!transfer.post(jsonData)) {  // don't ask me why but transfer.post() returns false
+    if (transfer.post(jsonData)) {
         console.writeln("Successfully received data from LLM. HTTP Status: " + transfer.responseCode);
 
         //let responseString = transfer.response.toString(); // NOTE: this will work for ASCII but any Unicode characters will render incorrectly
@@ -85,7 +89,7 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
         try {
 
-            let responseObject = JSON.parse(responseString); // now parse the decoded UTF-8 -> String to a Javascript object
+            let responseObject = JSON.parse(responseString); // now parse (decode) the decoded UTF-8 byte array String to a Javascript object
 
             let messageContent = "Error: No valid choice found in LLM response."; // set default log message as error
             if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
@@ -112,9 +116,7 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
     transfer.closeConnection();
 };
 
-// =============================================================================
-// Main Execution Logic
-// =============================================================================
+
 function pi2llmMain() {
     console.show();
 
@@ -125,7 +127,7 @@ function pi2llmMain() {
     let config = new Configuration();
     config.load();
 
-    // The robust "First Run" check remains.
+    // The  "First Run" check remains.
     if (config.isFirstRun()) {
         new MessageBox(
             "Welcome to the pi2llm Assistant!\n\nAs this is your first time, the configuration dialog will now open.",
