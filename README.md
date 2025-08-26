@@ -1,4 +1,4 @@
-# PXI2LLM for PixInsight: Your AI-Powered Astrophotography Assistant
+# PXI2LLM for PixInsight: AI-Powered Astrophotography Assistant
 
 ![PXI2LLM Assistant Banner](https://placehold.co/800x200/171C2C/FFFFFF/png?text=PXI2LLM+for+PixInsight)
 
@@ -30,7 +30,7 @@ Stop guessing and start getting data-driven recommendations tailored to *your* i
 
 1.  **PixInsight:** Version 1.8.9 or later is recommended.
 2.  **A Local LLM Server:** You must have a local LLM running that provides an OpenAI-compatible API endpoint. A popular and highly effective tool for this is [LM Studio](https://lmstudio.ai/). PXI2LLM is tested and works well with it.
-3.  **An LLM Model:** A capable chat or instruction-tuned model. Models like Llama 3, Mixtral, and variants of Mistral 7B are excellent choices.
+3.  **An LLM Model:** A capable chat or instruction-tuned model. Models like Llama 3, Mixtral, Qwen and variants of Mistral 7B are excellent choices.
 
 ---
 
@@ -40,7 +40,7 @@ Stop guessing and start getting data-driven recommendations tailored to *your* i
 2.  **Open PixInsight.**
 3.  Go to the main menu and select `Script > Feature Scripts...`.
 4.  In the Feature Scripts dialog, click the **"Add"** button.
-5.  Navigate to the location where you extracted the repository and select the **`gemini`** folder (the folder that contains `gemini.js` and the `lib` sub-folder).
+5.  Navigate to the location where you extracted the repository and select the **`pi2llm`** folder (the folder that contains `pi2llm-main.js` and the `lib` sub-folder).
 6.  Click **"Select Directory"**. You should see "PXI2LLM Assistant" and "Configure PXI2LLM Assistant" appear in the list.
 7.  Click **"Done"**.
 8.  **Restart PixInsight.** This is a mandatory step for the new menu items to appear correctly.
@@ -51,7 +51,7 @@ After restarting, you will find the assistant under the `Script > StirlingAstrop
 
 ## First-Time Configuration
 
-Before you can use the assistant, you must tell it how to connect to your local LLM.
+Before using the assistant, tell it how to connect to your local or remote large language model's openAI-compatible endpoint.
 
 1.  Go to `Script > StirlingAstrophoto > Configure PXI2LLM Assistant`.
 2.  The configuration dialog will open.
@@ -63,11 +63,9 @@ Before you can use the assistant, you must tell it how to connect to your local 
 3.  **LLM URL:** This is the most important field. Enter the full URL of your local LLM's chat completions endpoint.
     *   For **LM Studio**, this is typically `http://127.0.0.1:1234/v1/chat/completions`.
 4.  **API Key:** Most local servers do not require an API key. You can usually leave this as the default "no-key".
-5.  **System Prompt:** A powerful default prompt is provided. You can customize this later if you become a power user.
+5.  **System Prompt:** A default system prompt is provided and can be customized.
 6.  **Temperature / Max Tokens:** These control the "creativity" and length of the LLM's responses. The defaults are a good starting point.
-7.  Click **"OK"** to save your settings.
-
-You only need to do this once.
+7.  Click **"OK"** to save the script settings.
 
 ---
 
@@ -78,8 +76,8 @@ Using the assistant is a simple, interactive process.
 1.  **Open one or more images** in your PixInsight workspace. For best results, use images that have been plate-solved.
 2.  Go to `Script > StirlingAstrophoto > PXI2LLM Assistant` to launch the main tool.
 3.  The chat window will appear.
-4.  **Select Your Target Image:** Use the dropdown menu at the top of the window to choose the primary image you want to work on.
-5.  **Analyze:** Click the **"Analyze Selected Image"** button. The script will perform a complete analysis and send the data to the LLM.
+4.  **Select a Target Image:** Use the dropdown menu at the top left of the window to choose the primary image you want to work on.
+5.  **Analyze:** Click the **"Analyze Selected Image"** button at the top right of the window. The script will gather details about the image and send a prompt with the data to the LLM.
 6.  **Chat!** The first response from the LLM will appear. You can now have a conversation:
     *   Ask for recommendations: `"What should I do next?"`
     *   Ask for clarification: `"Explain what DynamicBackgroundExtraction does."`
@@ -89,7 +87,7 @@ Using the assistant is a simple, interactive process.
 
 *   **New Chat:** Resets the conversation and allows you to select a new image, starting a fresh analysis.
 *   **Settings:** Opens the configuration dialog at any time to tweak your settings.
-*   **Export History:** Saves the current conversation to a `.txt` or `.json` file, perfect for keeping logs with your project data.
+*   **Export History:** Saves the current conversation to a `.txt` or `.json` file.
 
 ---
 
