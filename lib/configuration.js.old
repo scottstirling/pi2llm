@@ -9,7 +9,7 @@
 #include <pjsr/UndoFlag.jsh>
 #include <pjsr/NumericControl.jsh>
 #include <pjsr/DataType.jsh>      // For DataType constants (DataType_String, etc.)
-#include <pjsr/Sizer.jsh>         // For Sizer, VerticalSizer, HorizontalSizer
+#include <pjsr/Sizer.jsh>         // For Sizer, VerticalSizer, HorizontalSizer, GridSizer
 #include <pjsr/FrameStyle.jsh>    // For FrameStyle constants
 #include <pjsr/TextAlign.jsh>     // For TextAlign constants
 #include <pjsr/StdButton.jsh>     // For standard button constants like StdButton_Ok
@@ -35,98 +35,56 @@ function ConfigDialog(config) {
     this.helpLabel.margin = 4;
     this.helpLabel.wordWrapping = true;
     this.helpLabel.useRichText = true;
-    this.helpLabel.text = "<b>pi2llm Assistant Configuration</b><br/>" + "Configure the connection to your Large Language Model (LLM).";
+    this.helpLabel.text = "<b>pi2llm  Assistant Configuration</b><br/>" + "Configure the connection to your Large Language Model (LLM).";
 
-    // == Top Section Items =======================================================
-    // --- Labels ---
     this.urlLabel = new Label(this);
     this.urlLabel.text = "LLM URL:";
     this.urlLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
+    this.urlEdit = new Edit(this);
+    this.urlEdit.text = this.config.url;
+    this.urlEdit.toolTip = "<p>Enter the full URL for your LLM's OpenAI-compatible chat endpoint.</p>";  // v2
 
     this.apiKeyLabel = new Label(this);
     this.apiKeyLabel.text = "API Key:";
     this.apiKeyLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
-
-    this.modelLabel = new Label(this);
-    this.modelLabel.text = "Model:";
-    this.modelLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
-
-    this.tempLabel = new Label(this);
-    this.tempLabel.text = "Temperature:";
-    this.tempLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
-
-    this.tokensLabel = new Label(this);
-    this.tokensLabel.text = "Max Tokens:";
-    this.tokensLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
-
-    // --- Inputs ---
-    this.urlEdit = new Edit(this);
-    this.urlEdit.text = this.config.url;
-    this.urlEdit.toolTip = "<p>Enter the full URL for your LLM's OpenAI-compatible chat endpoint.</p>";
-
     this.apiKeyEdit = new Edit(this);
     this.apiKeyEdit.text = this.config.apiKey;
     this.apiKeyEdit.passwordMode = true;
-    this.apiKeyEdit.toolTip = "<p>Enter API token to plug into <b>Authorization: Bearer</b> header for LLM authentication, if required by your endpoint.</p>";  // v2
 
-
+    this.modelLabel = new Label(this);
+    this.modelLabel.text = "model:";
+    this.modelLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
     this.modelEdit = new Edit(this);
     this.modelEdit.text = this.config.model;
-    this.modelEdit.toolTip = "<p>If required by your API endpoint, specify a model.</p>";
+    this.modelEdit.toolTip = "<p>If required by your API endpoint, specify a model.</p>";  // v2
 
-    this.tempSpinBox = new NumericControl(this);
-    this.tempSpinBox.real = true;
-    this.tempSpinBox.setRange(0.0, 2.0);
-    this.tempSpinBox.setPrecision(2);
-    this.tempSpinBox.setValue(this.config.temperature);
-    this.tempSpinBox.toolTip = "<p>The sampling temperature for the LLM. Range: 0.0 to 2.0 (0.8 default). Higher values make the output more random.</p>";
-
-    this.tokensSpinBox = new NumericControl(this);
-    this.tokensSpinBox.real = false;
-    this.tokensSpinBox.setRange(50, 16000);
-    this.tokensSpinBox.setValue(this.config.maxTokens);
-    this.tokensSpinBox.toolTip = "<p>The maximum number of tokens to generate in a single response. Range: 50 to 16000.</p>";
-
-    // Sizer for all the labels in the first column
-    let labelsSizer = new VerticalSizer;
-    labelsSizer.spacing = 8; // Spacing between labels
-    labelsSizer.add(this.urlLabel);
-    labelsSizer.add(this.apiKeyLabel);
-    labelsSizer.add(this.modelLabel);
-    labelsSizer.addSpacing(4); // Add small spacer to vertically align label with the taller NumericControl
-    labelsSizer.add(this.tempLabel);
-    labelsSizer.addSpacing(4);
-    labelsSizer.add(this.tokensLabel);
-    labelsSizer.addStretch();
-
-    // Sizer for all the input fields in the second column
-    let inputsSizer = new VerticalSizer;
-    inputsSizer.spacing = 4; // Spacing between inputs
-    inputsSizer.add(this.urlEdit);
-    inputsSizer.add(this.apiKeyEdit);
-    inputsSizer.add(this.modelEdit);
-    inputsSizer.add(this.tempSpinBox);
-    inputsSizer.add(this.tokensSpinBox);
-    inputsSizer.addStretch();
-
-    // Sizer to hold the two columns side-by-side
-    let topSectionSizer = new HorizontalSizer;
-    topSectionSizer.spacing = 6;
-    topSectionSizer.add(labelsSizer);
-    topSectionSizer.add(inputsSizer, 100); // The 100 stretch factor makes the input column expand
-
-    // == Prompt Area ==========================================================
     this.promptLabel = new Label(this);
     this.promptLabel.text = "System Prompt:";
-    this.promptLabel.textAlignment = TextAlign_Left | TextAlign_VertCenter;
+    this.promptLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
 
     this.promptEdit = new TextBox(this);
     this.promptEdit.text = this.config.systemPrompt;
     this.promptEdit.readOnly = false;
     this.promptEdit.wordWrapping = true;
-    this.promptEdit.setMinHeight(300); // Set an initial reasonable height
+    this.promptEdit.setFixedHeight(300); // v2
 
-    // == Buttons ==============================================================
+    this.tempLabel = new Label(this);
+    this.tempLabel.text = "Temperature:";
+    this.tempLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
+    this.tempSpinBox = new NumericControl(this);
+    this.tempSpinBox.real = true;
+    this.tempSpinBox.setRange(0.0, 2.0);
+    this.tempSpinBox.setPrecision(2);
+    this.tempSpinBox.setValue(this.config.temperature);
+
+    this.tokensLabel = new Label(this);
+    this.tokensLabel.text = "Max Tokens:";
+    this.tokensLabel.textAlignment = TextAlign_Right | TextAlign_VertCenter;
+    this.tokensSpinBox = new NumericControl(this);
+    this.tokensSpinBox.real = false;
+    this.tokensSpinBox.setRange(50, 16000);
+    this.tokensSpinBox.setValue(this.config.maxTokens);
+
     this.okButton = new PushButton(this);
     this.okButton.text = "OK";
     this.okButton.icon = this.scaledResource(":/icons/ok.png");
@@ -140,32 +98,47 @@ function ConfigDialog(config) {
     this.cancelButton.icon = this.scaledResource(":/icons/cancel.png");
     this.cancelButton.onClick = function() { this.cancel(); }.bind(this);
 
+    let labelsSizer = new VerticalSizer;
+    labelsSizer.spacing = 2; // was 8
+    labelsSizer.add(this.urlLabel);
+    labelsSizer.add(this.apiKeyLabel);
+    labelsSizer.add(this.modelLabel);
+    labelsSizer.add(this.promptLabel);
+    labelsSizer.add(this.tempLabel);
+    labelsSizer.add(this.tokensLabel);
+
+    let inputsSizer = new VerticalSizer;
+    inputsSizer.spacing = 2;
+    inputsSizer.add(this.urlEdit);
+    inputsSizer.add(this.apiKeyEdit);
+    inputsSizer.add(this.modelEdit);
+    inputsSizer.add(this.promptEdit);
+    inputsSizer.add(this.tempSpinBox);
+    inputsSizer.add(this.tokensSpinBox);
+
+    let formSizer = new HorizontalSizer;
+    formSizer.spacing = 2; // was 6
+    formSizer.add(labelsSizer);
+    formSizer.add(inputsSizer, 100);
+    formSizer.addStretch(); // new
+
     let buttonsSizer = new HorizontalSizer;
     buttonsSizer.spacing = 6;
     buttonsSizer.addStretch();
     buttonsSizer.add(this.okButton);
     buttonsSizer.add(this.cancelButton);
 
-    // == Main Layout ==========================================================
     this.sizer = new VerticalSizer;
     this.sizer.margin = 6;
-    this.sizer.spacing = 6;
+    this.sizer.spacing = 3; // was 6
     this.sizer.add(this.helpLabel);
     this.sizer.addSpacing(4);
-    this.sizer.add(topSectionSizer); // Add the two-column section
-    this.sizer.addSpacing(8);
-    this.sizer.add(this.promptLabel); // Add the prompt label
-    this.sizer.add(this.promptEdit, 100); // Add the prompt text box with stretch factor
-    this.sizer.addSpacing(4);
+    this.sizer.add(formSizer);
+    this.sizer.addStretch();
     this.sizer.add(buttonsSizer);
-
     this.windowTitle = "pi2llm Configuration";
     this.adjustToContents();
-    this.setMinWidth(800);
-    this.setMinHeight(500);
-    this.setVariableSize(); // Allow both horizontal and vertical resizing
-
-    // == Event Handling =======================================================
+    this.setMinWidth(800); // was 600
     this.onOK = function() {
         this.config.url = this.urlEdit.text;
         this.config.apiKey = this.apiKeyEdit.text;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# TODO
-OPENAI_API_KEY=12345
+# Export OPEN_API_KEY to your environment or set one here uncommented.
+# OPENAI_API_KEY=12345
 
 # --- Configuration ---
 # IMPORTANT: Replace "YOUR_OPENAI_API_KEY" with your actual OpenAI API key.

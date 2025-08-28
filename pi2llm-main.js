@@ -12,6 +12,7 @@
 
 #include "./lib/configuration.js"
 #include "./lib/extractors.js"
+#include "./lib/image_profile.js"
 #include "./lib/chat_ui.js"
 
 /*
@@ -25,11 +26,10 @@ function LLMCommunicator(url, apiKey) {
 
 /**
  * unicodeEscape(jsonString) needs to be run *after* JSON.stringify() to escape
- * Unicode characters, due to limitations of JSON.strinigify() in SpiderMonkey 2014
- * Javascript engine in PixInsight.
+ * Unicode characters.
  */
-function unicodeEscape(json) {
-    return json.replace(/[\u007F-\uFFFF]/g, function(chr) {
+function unicodeEscape(jsonString) {
+    return jsonString.replace(/[\u007F-\uFFFF]/g, function(chr) {
         return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4)
     });
 }
@@ -37,18 +37,17 @@ function unicodeEscape(json) {
 
 LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) {
 
-    // Try escaping Unicode chars (usually in the chat history) after JSON.stringify
     // DEBUG
-    console.writeln("   ======== jsonData ==========   ");
-    ///console.writeln("jsonData: " +  JSON.stringify(payload, null, 2));
-    // console.writeln("jsonData escaped: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
-    console.writeln("   ======== jsonData ==========   ");
+    // console.writeln("   ======== payload ==========   ");
+    ///console.writeln("payload JSON.stringified and formatted: " +  JSON.stringify(payload, null, 2));
+    // console.writeln("payload JSON.stringified then unicodeEscaped and formatted: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
+    // console.writeln("   ======== payload ==========   ");
 
     // Stringify the payload, escape quotes, trim newlines.
     let jsonData = JSON.stringify(payload);
 
 
-    // NOTE: Crucial fix: escape Unicode chars after SpiderMonkey's stringify
+    // NOTE: Crucial: escape Unicode chars after stringify
     jsonData = unicodeEscape(jsonData);
 
 
@@ -64,13 +63,16 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
     let transfer = new NetworkTransfer;
 
     if ( this.url.indexOf( "https" ) != -1 ) {
-        T.setSSL();
+        transfer.setSSL();
     }
+    // NOTE: setURL(string) *must* be called prior to setCustomHTTPHeaders(array) because
+    // setURL(string) also *resets the headers*.
     transfer.setURL(this.url);
     transfer.setConnectionTimeout(60); // unit is seconds
 
     transfer.onDownloadDataAvailable = function (data) {
         console.writeln("Info: receiving data ...")
+        console.writeln(data); // DEBUG
         this.response.add(data);
         return true;
     };
@@ -91,9 +93,16 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
             let responseObject = JSON.parse(responseString); // now parse (decode) the decoded UTF-8 byte array String to a Javascript object
 
-            let messageContent = "Error: No valid choice found in LLM response."; // set default log message as error
+            let messageContent = "Error: unexpected data or formatting in LLM response."; // set default log message as error
+
+            // Two main attempts to handle LLM response format variations
+
+            // 1. first try to handle as openAI-compatible JSON format such as from openAI, llamacpp, LMStudio
             if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
                 messageContent = responseObject.choices[0].message.content;
+            } else {
+                // 2. if failed to find "choices" then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
+                messageContent = responseObject.result.response;
             }
             if (onComplete) {
                 onComplete(messageContent);
@@ -106,7 +115,7 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
             }
         }
     } else {
-        let errorMsg = "Network upload failed. HTTP Status: " + transfer.responseCode + "\nError Info: " + transfer.errorInformation;
+        let errorMsg = "NetworkTransfer POST failed. HTTP Status: " + transfer.responseCode + "\nError Info: " + transfer.errorInformation;
         console.criticalln(errorMsg);
         if (onError) {
             onError(errorMsg);
