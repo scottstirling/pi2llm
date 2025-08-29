@@ -9,7 +9,7 @@
 #define VERSION "1.0.0"
 #define TITLE "LLM Assistant"
 
-#feature-id  pi2llm : StirlingAstrophoto > LLM Assistant
+#feature-id  pi2llm : Utilities > LLM Assistant
 #feature-info "An LLM-powered assistant for PixInsight workflows."
 #feature-icon ":/icons/analyze.png"
 
