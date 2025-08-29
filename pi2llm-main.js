@@ -6,7 +6,7 @@
 #define VERSION "1.0.0"
 #define TITLE "LLM Assistant"
 
-#feature-id  pi2llm : StirlingAstrophoto > pi2llm
+#feature-id  pi2llm : StirlingAstrophoto > LLM Assistant
 #feature-info "An LLM-powered assistant for PixInsight workflows."
 #feature-icon ":/icons/analyze.png"
 
@@ -69,17 +69,16 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
     // setURL(string) also *resets the headers*.
     transfer.setURL(this.url);
     transfer.setConnectionTimeout(60); // unit is seconds
+    transfer.setCustomHTTPHeaders(headers);
 
     transfer.onDownloadDataAvailable = function (data) {
         console.writeln("Info: receiving data ...")
-        console.writeln(data); // DEBUG
+        // console.writeln(data); // DEBUG "raw" JSON response
         this.response.add(data);
         return true;
     };
 
     transfer.response = new ByteArray(); // raw byte array response data receiver
-
-    transfer.setCustomHTTPHeaders(headers);
 
     console.writeln("Sending data to LLM at: " + this.url);
 
@@ -101,7 +100,7 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
             if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
                 messageContent = responseObject.choices[0].message.content;
             } else {
-                // 2. if failed to find "choices" then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
+                // 2. if failed to find "choices" in JSON, then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
                 messageContent = responseObject.result.response;
             }
             if (onComplete) {
@@ -131,7 +130,7 @@ function pi2llmMain() {
 
     // don't clear the console and lose all previous messages
     // console.clear();
-    console.writeln("--- pi2llm  Assistant Initialized ---");
+    console.writeln("--- LLM Assistant Initialized ---");
 
     let config = new Configuration();
     config.load();
@@ -139,7 +138,7 @@ function pi2llmMain() {
     // The  "First Run" check remains.
     if (config.isFirstRun()) {
         new MessageBox(
-            "Welcome to the pi2llm Assistant!\n\nAs this is your first time, the configuration dialog will now open.",
+            "Welcome to LLM Assistant!\n\nThe configuration dialog will open for initial configuration.",
             TITLE, StdIcon_Information, StdButton_Ok
         ).execute();
 
@@ -154,7 +153,7 @@ function pi2llmMain() {
     let chatDialog = new pi2llmChatDialog(config);
     chatDialog.execute();
 
-    console.writeln("--- pi2llm  Assistant Closed ---");
+    console.writeln("--- LLM  Assistant Closed ---");
 }
 
 pi2llmMain();
