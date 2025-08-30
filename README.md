@@ -93,8 +93,11 @@ Once configured, using the assistant is a simple interactive process.  You may b
     *   Ask for a description: `"Please write a description for this image for AstroBin."`
 
 *Here is a screenshot showing the data sent to the LLM at the top, and part of the response from Alibaba's Qwen LLM model `Qwen3-4b-2507` running locally on LMStudio 3.24.*
-![Screenshot of LLM Response](screenshots/LM-Studio-qwen-response-demo-Screenshot.png)
+![Screenshot of Qwen 4b LLM Response](screenshots/LM-Studio-qwen-response-demo-Screenshot.png)
+Note that the Qwen 4b model loves to use emojis in its responses, but here incorrectly describes the target as being in Cassiopeia rather than Lacerta.  Your mileage may vary with the smaller LLM models accuracy. and all LLMs are liable to "hallucinate" to fill in gaps.
 
+Here is a response from Gemini Flash 2.0 explaining how UnsharpMask and Convolution work in response to a follow up question about that.
+![Screenshot of Gemini Flash 2.0 LLM Response](screenshots/LLM-Assistant-demo-next-response-Screenshot.png)
 
 ### Key Features of the Chat Window
 
