@@ -20,9 +20,8 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 *   **Image Description Generation:** Select a finished image and ask the assistant to write a detailed description of the astronomical target and the processing workflow used to create it.
 *   **Highly Configurable:** Easily configure connection to any OpenAI-compatible API.
 
-*(Here would be a great place for a screenshot of the main chat UI, showing the image selection dropdown, the chat history, and the input box.)*
-
-`[Screenshot of the LLM Assistant main dialog in action]`
+*Here is a screenshot of the main chat UI, showing the image selection dropdown, the chat history, and the input box.*
+![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-Screenshot.png)
 
 ---
 
@@ -61,13 +60,13 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
 1.  Go to `Script > Utilities > LLM Assistant` the first time.
 2.  The configuration dialog will open the first time.
 
-    *(A screenshot of the configuration dialog would be perfect here, highlighting the URL, API Key, and Model fields.)*
-
-    `[Screenshot of the Configuration Dialog]`
+    *Here is a screenshot of the configuration dialog, showing the URL, API Key, and Model fields.*
+    ![Screenshot of the Configuration Dialog](screenshots/LLM-Assistant-demo-configuration-googleai-Screenshot.png)
 
 3.  **LLM URL:** Enter the full URL of an LLM's chat completions API endpoint.
-    *   For **LM Studio**, this is typically `http://127.0.0.1:1234/v1/chat/completions`.
-    *   For a **Cloudflare AI Gateway**, it will look like `https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/YOUR_GATEWAY_NAME/openai`.
+    *   For **LM Studio**, this is `http://127.0.0.1:4321/v1/chat/completions`.
+    *   For a **Cloudflare AI Gateway**, it will look like `https://gateway.ai.cloudflare.com/v1/${ACCOUNT_ID_STRING}/${API_GATEWAY}/workers-ai/${MODEL_PATH}` where the `model` is specified in the URL.
+    *   For a **Google AI API**, the URL will look like `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` and the `model` is specified as a separate configuration value.
 4.  **API Key:** For local servers, you can typically leave the default "no-key". For cloud services, enter your API token for your account's authentication.
 5.  **Model:** This field is often required by cloud services to specify which model to use, though some vendors put the model name in the URL. It can be left blank for local LLM servers.
     *   For a **Cloudflare AI Gateway**, an example might be `@cf/meta/llama-4-scout-17b-16e-instruct`.
@@ -95,9 +94,10 @@ Once configured, using the assistant is a simple interactive process.  You may b
 
 ### Key Features of the Chat Window
 
-*   **New Chat:** Resets the conversation and allows you to select a new image.
+*   **New Chat:** Button resets the conversation and clears history.
 *   **Settings:** Opens the configuration dialog at any time.
 *   **Export History:** Saves the current conversation to a `.txt` or `.json` file.
+![Screenshot of Export Chat History](screenshot/LLM-Assistant-demo-export-history-Screenshot.png)
 
 ---
 
