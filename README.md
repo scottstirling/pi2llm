@@ -92,12 +92,16 @@ Once configured, using the assistant is a simple interactive process.  You may b
     *   Ask for clarification: `"Explain what DynamicBackgroundExtraction does."`
     *   Ask for a description: `"Please write a description for this image for AstroBin."`
 
+*Here is a screenshot showing the data sent to the LLM at the top, and part of the response from Alibaba's Qwen LLM model `Qwen3-4b-2507` running locally on LMStudio 3.24.*
+![Screenshot of LLM Response](screenshots/LM-Studio-qwen-response-demo-Screenshot.png)
+
+
 ### Key Features of the Chat Window
 
 *   **New Chat:** Button resets the conversation and clears history.
 *   **Settings:** Opens the configuration dialog at any time.
 *   **Export History:** Saves the current conversation to a `.txt` or `.json` file.
-![Screenshot of Export Chat History](screenshot/LLM-Assistant-demo-export-history-Screenshot.png)
+![Screenshot of Export Chat History](screenshots/LLM-Assistant-demo-export-history-Screenshot.png)
 
 ---
 
