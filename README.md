@@ -64,7 +64,7 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
     ![Screenshot of the Configuration Dialog](screenshots/LLM-Assistant-demo-configuration-googleai-Screenshot.png)
 
 3.  **LLM URL:** Enter the full URL of an LLM's chat completions API endpoint.
-    *   For **LM Studio**, this is `http://127.0.0.1:4321/v1/chat/completions`.
+    *   For **LM Studio**, this is `http://127.0.0.1:1234/v1/chat/completions`.
     *   For a **Cloudflare AI Gateway**, it will look like `https://gateway.ai.cloudflare.com/v1/${ACCOUNT_ID_STRING}/${API_GATEWAY}/workers-ai/${MODEL_PATH}` where the `model` is specified in the URL.
     *   For a **Google AI API**, the URL will look like `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` and the `model` is specified as a separate configuration value.
 4.  **API Key:** For local servers, you can typically leave the default "no-key". For cloud services, enter your API token for your account's authentication.
