@@ -36,7 +36,7 @@ Start getting data-driven recommendations tailored to *your* image, right inside
         *   **Cloudflare AI Gateway:** A fantastic service to connect to models from Meta (Llama 3), Google, Qwen and more, which offers 10,000 "neurons" (around 40,000 tokens) free per day.
         *   **Google Gemini AI:** Use Google's latest Gemini models via their OpenAI-compatible endpoint.
         *   Currently, any other service that offers an OpenAI-compatible API or Cloudflare Gateway-compatible API.
-3.  **An LLM Model:** A capable chat or instruction-tuned model. Models such as Llama 3.2 Instruct, Mixtral, Qwen 3, Gemini Flash ad Pro, OpenAI, Claude and variants of Mistral are excellent choices, able to identify astronomical targets by celestial coordinates and knowledgeable to various degrees about PixInsight and astrophotography processing.
+3.  **An LLM Model:** A capable chat or instruction-tuned model. Models such as Llama 3.2 Instruct, Mixtral, Qwen 3, Gemini Flash and Pro, OpenAI, Claude and variants of Mistral are excellent choices, able to identify astronomical targets by celestial coordinates and knowledgeable to various degrees about PixInsight and astrophotography processing.
 
 ---
 

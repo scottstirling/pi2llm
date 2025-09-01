@@ -102,9 +102,11 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
             // 1. first try to handle as openAI-compatible JSON format such as from openAI, llamacpp, LMStudio
             if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
                 messageContent = responseObject.choices[0].message.content;
-            } else {
-                // 2. if failed to find "choices" in JSON, then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
+            } else if (responseObject && responseObject.result) {
+                // 2. if we have a responseObject but failed to find "choices" in JSON, then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
                 messageContent = responseObject.result.response;
+            } else if (responseObject.error) { // response contains an error message
+                messageContent = responseObject.error.message;
             }
             if (onComplete) {
                 onComplete(messageContent);
