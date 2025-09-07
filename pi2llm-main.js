@@ -6,7 +6,7 @@
 // See the LICENSE file for details.
 // =============================================================================
 
-#define VERSION "1.0.0"
+#define VERSION "2.0.0"
 #define TITLE "LLM Assistant"
 
 #feature-id  pi2llm : Utilities > LLM Assistant
@@ -41,10 +41,14 @@ function unicodeEscape(jsonString) {
 LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) {
 
     // DEBUG
-    // console.writeln("   ======== payload ==========   ");
-    ///console.writeln("payload JSON.stringified and formatted: " +  JSON.stringify(payload, null, 2));
+    console.writeln("   ======== payload ==========   ");
+
+    const debugPayload = JSON.stringify(payload, null, 2);
+
+    console.writeln("payload JSON.stringified and formatted: " + debugPayload.substring(0,4096)  );
+
     // console.writeln("payload JSON.stringified then unicodeEscaped and formatted: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
-    // console.writeln("   ======== payload ==========   ");
+    console.writeln("   ======== payload ==========   ");
 
     // Stringify the payload, escape quotes, trim newlines.
     let jsonData = JSON.stringify(payload);

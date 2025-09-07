@@ -78,6 +78,27 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
 
 ---
 
+### Common LLM API Endpoints
+
+To configure LLM Assistant, get the "Chat Completions Endpoint" for your LLM provider. Here is a list of common endpoints for popular local and remote services.
+
+| Vendor / Tool     | Chat Completions Endpoint                           | Notes                                                                                                         |
+| ----------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Local Servers** |                                                     | *These run on your own computer.*                                                                             |
+| LM Studio         | `http://127.0.0.1:1234/v1/chat/completions`         | The default for LM Studio. Port may vary if you change it in the settings.                                    |
+| Ollama            | `http://127.0.0.1:11434/v1/chat/completions`        | The standard Ollama endpoint. Requires an OpenAI-compatible library or wrapper.                               |
+| llama.cpp (Server)| `http://127.0.0.1:8080/v1/chat/completions`         | The default when running the `llama-server` command. Port is configurable.                                    |
+| **Cloud Services**|                                                     | *These are remote network services. They require an API Key and usually an account and payment method.*       |
+| OpenAI            | `https://api.openai.com/v1/chat/completions`        | For official models like GPT-4o, GPT-4 Turbo, and GPT-3.5. Requires a payment method for API key.             |
+| Google AI Studio  | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | Requires a Google account and API key.                                                 |
+| Anthropic (Claude)| `https://api.anthropic.com/v1/`             | Requires an Anthropic account and API key.  A value for the `model` parameter in Settings must be specified.          |
+| **API Routers**   |                                                     | *These services give you access to multiple models through one endpoint.*                                     |
+| OpenRouter.ai     | `https://openrouter.ai/api/v1/chat/completions`     | Popular service for accessing a wide variety of models (GPT, Claude, Llama, etc.) with one API key.           |
+| Cloudflare AI     | `https://gateway.ai.cloudflare.com/v1/{YOUR_ACCOUNT_ID}/${YOUR_GATEWAY}/workers-ai/${MODEL_PATH}` | Requires a Cloudflare account. The model is part of the URL.    |
+| Meta Llama        | `(Varies by host)`                                  | Meta does not yet host a public API for Llama models directly. You access them via services like OpenRouter, or by running them locally. |
+
+---
+
 ## How to Use the LLM Assistant
 
 Once configured, using the assistant is a simple interactive process.  You may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.
