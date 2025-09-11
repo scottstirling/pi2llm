@@ -37,18 +37,14 @@ function unicodeEscape(jsonString) {
     });
 }
 
-
 LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) {
 
     // DEBUG
-    console.writeln("   ======== payload ==========   ");
-
-    const debugPayload = JSON.stringify(payload, null, 2);
-
-    console.writeln("payload JSON.stringified and formatted: " + debugPayload.substring(0,4096)  );
-
+    // console.writeln("   ======== payload ==========   ");
+    // const debugPayload = JSON.stringify(payload, null, 2);
+    // console.writeln("payload JSON.stringified and formatted: " + debugPayload.substring(0,4096)  );
     // console.writeln("payload JSON.stringified then unicodeEscaped and formatted: " +  unicodeEscape(JSON.stringify(payload, null, 2) ) );
-    console.writeln("   ======== payload ==========   ");
+    // console.writeln("   ======== payload ==========   ");
 
     // Stringify the payload, escape quotes, trim newlines.
     let jsonData = JSON.stringify(payload);
@@ -95,29 +91,39 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
         //let responseString = transfer.response.toString(); // NOTE: this will work for ASCII but any Unicode characters will render incorrectly
         let responseString = transfer.response.utf8ToString(); // NOTE: decode raw byte array response from UTF-8 encoding to String (before parsing to JSON)
 
+        let messageContent = "Error: unexpected data or formatting in LLM response."; // set default log message as error
+
         try {
+            // DEBUG
+            console.writeln("response string: " + responseString);
 
             let responseObject = JSON.parse(responseString); // now parse (decode) the decoded UTF-8 byte array String to a Javascript object
 
-            let messageContent = "Error: unexpected data or formatting in LLM response."; // set default log message as error
-
             // Two main attempts to handle LLM response format variations
-
             // 1. first try to handle as openAI-compatible JSON format such as from openAI, llamacpp, LMStudio
             if (responseObject.choices && responseObject.choices.length > 0 && responseObject.choices[0].message) { // address JSON items returned from the LLM
                 messageContent = responseObject.choices[0].message.content;
             } else if (responseObject && responseObject.result) {
-                // 2. if we have a responseObject but failed to find "choices" in JSON, then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
+                // 2. if we have a responseObject but failed to find "choices" in JSON,
+                // then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
                 messageContent = responseObject.result.response;
-            } else if (responseObject.error) { // response contains an error message
-                messageContent = responseObject.error.message;
+            } else if (responseObject && transfer.responseCode > 200) { // response contains an error message
+                let errorObject = responseObject[0];
+                var error = errorObject.error;
+                var errorMsg = error.message
+                var errorCode = error.code;
+                var errorStatus = error.status;
+
+                messageContent = "AI Error: " + errorMsg + ", code: " + errorCode + ", status: " + errorStatus;
             }
             if (onComplete) {
                 onComplete(messageContent);
             }
         } catch (e) {
             let errorMsg = "Error parsing LLM JSON response: " + e.message;
+            messageContent = errorMsg;
             console.criticalln(errorMsg);
+
             if (onError) {
                 onError(errorMsg);
             }
@@ -132,6 +138,12 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
     transfer.closeConnection();
 };
+
+// common api response errors:
+// 1. wrong / non-existent model name:
+    // [{"error":{"code":404,"message":"models/foo is not found for API version v1main, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.","status":"NOT_FOUND"}}]
+// 2. no model name supplied:
+    // [{"error":{"code":400,"message":"model is not specified","status":"INVALID_ARGUMENT"}}]
 
 
 function pi2llmMain() {
