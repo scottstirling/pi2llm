@@ -25,7 +25,7 @@ Start getting data-driven recommendations tailored to *your* image, right inside
     *   A bug with stale state change between configuration settings and chat UI has been fixed.
     *   Validation of format for URLs input to the configuration.
 *  **System Prompt Updated:**
-    *   The metadata and history of an image may be incomplete and image view names may be more ad hoc than informative, so the prompt is more aware of disrepancies in data and is told to prioritize the visual of the image itself when in doubt.
+    *   The metadata and history of an image may be incomplete and image view names may be more ad hoc than informative, so the prompt is more aware of discrepancies in data and is told to prioritize the visual of the image itself when in doubt.
 
 ## Features version 1.0
 
