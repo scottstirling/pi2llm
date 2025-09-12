@@ -31,7 +31,7 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 *  **README Updated with Common LLM API Endpoints:**
    * Added `Common LLM API Endpoints` table to the README.md for reference and will add more info as users request.
 
-## Features version 1.0
+## Features in version 1.0
 
 *   **Context-Aware Analysis:** The assistant doesn't give generic advice. It analyzes a profile of any selected image, including:
     *   **Live Processing History:** Understands the steps *just* taken in the current session.
