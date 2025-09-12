@@ -100,11 +100,11 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
 9.  **Temperature / Max Tokens:** These control the "creativity" and length of the LLM's responses. The defaults are a good starting point.
 10.  Click **"OK"** to save the settings.
 
-### Configuration settings: Save, Load and Reset options
+### Settings Dialog: Save Profile, Load Profile and Reset to Defaults
 
-*  Configuration settings can be saved to a local file in JSON format.
-*  Configuration settings can be loaded from a local JSON file.
-*  Configuration defaults can be reset any time from the `Reset to Defaults` button on the Settings dialog.
+*  The `Save Profile...` button lets configuration settings can be saved to a local file in JSON format.
+*  The `Load Profile...` button lets configuration settings be loaded from a local JSON file.
+*  The `Reset to Defaults` button resets configuration values to defaults.
 
 ---
 
