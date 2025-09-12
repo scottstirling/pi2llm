@@ -96,17 +96,17 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
     *   For a **Cloudflare AI Gateway**, an example might be `@cf/meta/llama-4-scout-17b-16e-instruct`.
     *   For **Google AI**, an example might be `gemini-2.0-flash`.
     *   For local servers like `llama.cpp` where you only load one model, this field can often be left blank.
-9.  **Temperature:** Controls the "creativity" and randomness of the LLM's responses. The defaults are a good starting point.
+9.  **Temperature:** Controls the "creativity" and randomness of the LLM's responses. The default is a good starting point and anywhere from 0.8 to 1.2 is normal.
 9.  **Max Tokens:** Limits the length of the LLM's responses. The maximum tokens supported vary by LLM model and vendor.  Chat history counts toward the max token count.
 6.  **Enable Visual Analysis:** Option to enable or disable sending image data to the LLM. Default is disabled.
 7.  **Vision max pixels:** Set to the maximum supported by the visual LLM, which is referenced if needed to resize the LLM's copy of a selected image.  The maximum supported varies by vendor and model.  See your vendor's documentation, but safe bets are 1024 for local models and 2048 for remote vendor APIs.
 8.  **System Prompt:** A default system prompt is provided and can be customized to change the assistant's behavior.
 10.  Click **"OK"** to save the settings.
 
-### Settings Dialog: Save Profile, Load Profile and Reset to Defaults
+### Settings Dialog: Load Profile, Save Profile and Reset to Defaults
 
-*  The `Save Profile...` button lets configuration settings can be saved to a local file in JSON format.
 *  The `Load Profile...` button lets configuration settings be loaded from a local JSON file.
+*  The `Save Profile...` button lets configuration settings can be saved to a local file in JSON format.
 *  The `Reset to Defaults` button resets configuration values to defaults.
 
 ---
