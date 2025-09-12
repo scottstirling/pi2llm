@@ -28,6 +28,8 @@ Start getting data-driven recommendations tailored to *your* image, right inside
     *   The metadata and history of an image may be incomplete and image view names may be more ad hoc than informative, so the prompt is more aware of discrepancies in data and is told to prioritize the visual of the image itself when in doubt.
 *  **LLM Response Error Messages:**
     * Error message details from the LLM API are displayed to the user better than before. So if a model is not selected or the wrong name given or other vendor-specific errors, any specific details in the error message will be output to the chat UI and console.
+*  **README Updated with Common LLM API Endpoints:**
+   * Added `Common LLM API Endpoints` table to the README.md for reference and will add more info as users request.
 
 ## Features version 1.0
 
@@ -96,12 +98,12 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
     *   For a **Cloudflare AI Gateway**, an example might be `@cf/meta/llama-4-scout-17b-16e-instruct`.
     *   For **Google AI**, an example might be `gemini-2.0-flash`.
     *   For local servers like `llama.cpp` where you only load one model, this field can often be left blank.
-9.  **Temperature:** Controls the "creativity" and randomness of the LLM's responses. The default is a good starting point and anywhere from 0.8 to 1.2 is normal.
-9.  **Max Tokens:** Limits the length of the LLM's responses. The maximum tokens supported vary by LLM model and vendor.  Chat history counts toward the max token count.
-6.  **Enable Visual Analysis:** Option to enable or disable sending image data to the LLM. Default is disabled.
-7.  **Vision max pixels:** Set to the maximum supported by the visual LLM, which is referenced if needed to resize the LLM's copy of a selected image.  The maximum supported varies by vendor and model.  See your vendor's documentation, but safe bets are 1024 for local models and 2048 for remote vendor APIs.
-8.  **System Prompt:** A default system prompt is provided and can be customized to change the assistant's behavior.
-10.  Click **"OK"** to save the settings.
+6.  **Temperature:** Controls the "creativity" and randomness of the LLM's responses. The default is a good starting point and anywhere from 0.8 to 1.2 is normal.
+7.  **Max Tokens:** Limits the length of the LLM's responses. The maximum tokens supported vary by LLM model and vendor.  Chat history counts toward the max token count.
+8.  **Enable Visual Analysis:** Option to enable or disable sending image data to the LLM. Default is disabled.
+9.  **Vision max pixels:** Set to the maximum supported by the visual LLM, which is referenced if needed to resize the LLM's copy of a selected image.  The maximum supported varies by vendor and model.  See your vendor's documentation, but safe bets are 1024 for local models and 2048 for remote vendor APIs.
+10.  **System Prompt:** A default system prompt is provided and can be customized to change the assistant's behavior.
+11.  Click **"OK"** to save the settings.
 
 ### Settings Dialog: Load Profile, Save Profile and Reset to Defaults
 
