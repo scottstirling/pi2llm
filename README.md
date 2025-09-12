@@ -8,7 +8,26 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 
 ---
 
-## Features
+## Features in Version 2.0
+
+*   **Visual Analysis (New!):** If you have access to a vision-enabled LLM (such as Qwen2.5-VL-7B-Instruct locally, or Google Gemini or OpenAI remote APIs), LLM Assistant for PixInsight can now send a snapshot of a selected image along with its history and metadata for more thorough analysis.
+    *   User-configurable, opt-in feature, enabled globally in Settings and optionally *per image request* on the main chat UI.
+    *   The selected view dimensions are checked before sending.  Visual LLMs currently (Sept. 2025) support maximum image dimensions no greater than 2048 pixels on a side.
+    *   If the selected view exceeds the configuration option for maximum image dimensions (see the Settings), a *copy* is dynamically created and resized to fit the maxiumum supported.
+    *   The view is copied to a JPG file in the system temp directory, Base64-encoded and included in a JSON POST to the LLM.
+    *   The temporary JPG is deleted after sending. 
+*   **Save/Load Configuration Profiles:** Save and load configuration settings to a `.pi2llm.json` file. 
+    *   This makes it easy to switch between different LLM providers, version or share configurations.
+    *   *NOTE: API tokens are saved in clear text in the JSON file.*
+*   **Improved Chat Experience:**
+    *   The chat prompt input is now a proper multi-line text box.
+    *   Initial configuration and default settings reset workflow has been redone to remove obstacles.
+    *   A bug with stale state change between configuration settings and chat UI has been fixed.
+    *   Validation of format for URLs input to the configuration.
+*  **System Prompt Updated:**
+    *   The metadata and history of an image may be incomplete and image view names may be more ad hoc than informative, so the prompt is more aware of disrepancies in data and is told to prioritize the visual of the image itself when in doubt.
+
+## Features version 1.0
 
 *   **Context-Aware Analysis:** The assistant doesn't give generic advice. It analyzes a profile of any selected image, including:
     *   **Live Processing History:** Understands the steps *just* taken in the current session.
@@ -22,6 +41,9 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 
 *Here is a screenshot of the main chat UI, showing the image selection dropdown, the chat history, and the input box.*
 ![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-Screenshot.png)
+
+*Here is a screenshot of the main chat UI with image analysis enabled, showing the image selection dropdown, per-image opt-in checkbox, chat history, and prompt input.*
+![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-v2-Screenshot.png)
 
 ---
 
@@ -53,15 +75,15 @@ The LLM Assistant should appear under the `Script > Utilities` menu as `LLM Assi
 
 ---
 
-## First-Time Configuration
+## Configuration
 
 Before using the assistant, configure it to connect to a live LLM API endpoint, local or remote.
 
-1.  Go to `Script > Utilities > LLM Assistant` the first time.
-2.  The configuration dialog will open the first time.
+1.  Go to `Script > Utilities > LLM Assistant`
+2.  Click the `Settings` button to open the configuration dialog.
 
-    *Here is a screenshot of the configuration dialog, showing the URL, API Key, and Model fields.*
-    ![Screenshot of the Configuration Dialog](screenshots/LLM-Assistant-demo-configuration-googleai-Screenshot.png)
+    *Here is a screenshot of the configuration dialog, showing the defaults.*
+    ![Screenshot of the Configuration Dialog](screenshots/LLM-Assistant-demo-configuration-v2-defaults-Screenshot.png)
 
 3.  **LLM URL:** Enter the full URL of an LLM's chat completions API endpoint.
     *   For **LM Studio**, this is `http://127.0.0.1:1234/v1/chat/completions`.
@@ -72,9 +94,17 @@ Before using the assistant, configure it to connect to a live LLM API endpoint, 
     *   For a **Cloudflare AI Gateway**, an example might be `@cf/meta/llama-4-scout-17b-16e-instruct`.
     *   For **Google AI**, an example might be `gemini-2.0-flash`.
     *   For local servers like `llama.cpp` where you only load one model, this field can often be left blank.
-6.  **System Prompt:** A default system prompt is provided and can be customized to change the assistant's behavior.
-7.  **Temperature / Max Tokens:** These control the "creativity" and length of the LLM's responses. The defaults are a good starting point.
-8.  Click **"OK"** to save the script settings.
+6.  **Enable Visual Analysis:** Option to enable or disable sending image data to the LLM. Default is disabled.
+7.  **Vision max pixels:** Slider to set the maximum supported by the visual LLM, which is referenced if needed to resize the LLM's copy of a selected image.
+8.  **System Prompt:** A default system prompt is provided and can be customized to change the assistant's behavior.
+9.  **Temperature / Max Tokens:** These control the "creativity" and length of the LLM's responses. The defaults are a good starting point.
+10.  Click **"OK"** to save the settings.
+
+### Configuration settings: Save, Load and Reset options
+
+*  Configuration settings can be saved to a local file in JSON format.
+*  Configuration settings can be loaded from a local JSON file.
+*  Configuration defaults can be reset any time from the `Reset to Defaults` button on the Settings dialog.
 
 ---
 
