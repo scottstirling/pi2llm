@@ -140,7 +140,7 @@ Once configured, using the assistant is a simple interactive process.  You may b
 
 1.  **Open one or more images** in your PixInsight workspace. For best results, use images that have been plate-solved with astrometric data and have been saved with processing history and/or XISF or FITS headers.
 2.  Go to `Script > Utilities > LLM Assistant` to launch the main tool.
-3.  The chat window will appear.  The first time it is run it will display its Configuration aka Settings dialog. See the Configuration section ^ if needed.
+3.  The chat window will appear.  See the Configuration section ^ if needed.
 4.  **Select a Target Image:** Use the dropdown menu at the top left of the window to choose an open image to work on.
 5.  **Analyze:** Click the **"Analyze Selected Image"** button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.
 6.  **Chat** The first response from the LLM will appear. You can now have a conversation:
