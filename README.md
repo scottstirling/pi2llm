@@ -10,7 +10,7 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 
 ## Features in Version 2.0
 
-*   **Visual Analysis (New!):** If you have access to a vision-enabled LLM (such as Qwen2.5-VL-7B-Instruct locally, or Google Gemini or OpenAI remote APIs), LLM Assistant for PixInsight can now send a snapshot of a selected image along with its history and metadata for more thorough analysis.
+*   **Visual Analysis (New!):** If you have access to a vision-enabled LLM (such as Qwen2.5-VL-7B-Instruct locally, or Google Gemini or OpenAI remote APIs), LLM Assistant for PixInsight can now send a snapshot of a selected *nonlinear* image along with its history and metadata for more thorough analysis.
     *   User-configurable, opt-in feature, enabled globally in Settings and optionally *per image request* on the main chat UI.
     *   The selected view dimensions are checked before sending.  Visual LLMs currently (Sept. 2025) support maximum image dimensions no greater than 2048 pixels on a side.
     *   If the selected view exceeds the configuration option for maximum image dimensions (see the Settings), a *copy* is dynamically created and resized to fit the maximum supported.
