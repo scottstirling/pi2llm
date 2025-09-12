@@ -43,7 +43,7 @@ Start getting data-driven recommendations tailored to *your* image, right inside
 ![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-Screenshot.png)
 
 *Here is a screenshot of the main chat UI with image analysis enabled, showing the image selection dropdown, per-image opt-in checkbox, chat history, and prompt input.*
-![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-v2-Screenshot.png)
+![Screenshot of LLM Assistant main dialog](screenshots/LLM-Assistant-demo-main-v2-image-enabled-Screenshot.png)
 
 ---
 
@@ -137,7 +137,7 @@ Once configured, using the assistant is a simple interactive process.  You may b
 2.  Go to `Script > Utilities > LLM Assistant` to launch the main tool.
 3.  The chat window will appear.  The first time it is run it will display its Configuration aka Settings dialog. See the Configuration section ^ if needed.
 4.  **Select a Target Image:** Use the dropdown menu at the top left of the window to choose an open image to work on.
-5.  **Analyze:** Click the **"Analyze Selected Image"** button. The script will gather details about the image and send them to the LLM. **NOTE: at no time is an image sent to the LLM.  That feature may be implemented in a future version of the script, if a user wants to opt in to submitting image bytes to a Multimodal LLM or Vision Language Model for analysis.**
+5.  **Analyze:** Click the **"Analyze Selected Image"** button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.
 6.  **Chat** The first response from the LLM will appear. You can now have a conversation:
     *   Ask for recommendations: `"What should I do next?"`
     *   Ask for clarification: `"Explain what DynamicBackgroundExtraction does."`
