@@ -26,6 +26,8 @@ Start getting data-driven recommendations tailored to *your* image, right inside
     *   Validation of format for URLs input to the configuration.
 *  **System Prompt Updated:**
     *   The metadata and history of an image may be incomplete and image view names may be more ad hoc than informative, so the prompt is more aware of discrepancies in data and is told to prioritize the visual of the image itself when in doubt.
+*  **LLM Response Error Messages:**
+    * Error message details from the LLM API are displayed to the user better than before. So if a model is not selected or the wrong name given or other vendor-specific errors, any specific details in the error message will be output to the chat UI and console.
 
 ## Features version 1.0
 
