@@ -148,27 +148,12 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
 function pi2llmMain() {
     console.show();
-
     // don't clear the console and lose all previous messages
     // console.clear();
     console.writeln("--- LLM Assistant Initialized ---");
 
     let config = new Configuration();
     config.load();
-
-    // The  "First Run" check remains.
-    if (config.isFirstRun()) {
-        new MessageBox(
-            "Welcome to LLM Assistant!\n\nThe configuration dialog will open for initial configuration.",
-            TITLE, StdIcon_Information, StdButton_Ok
-        ).execute();
-
-        if (config.launchDialog()) {
-            config.setHasBeenConfigured();
-        } else {
-            return; // Exit if user cancels first-time setup.
-        }
-    }
 
     // Launch the main chat UI.
     let chatDialog = new pi2llmChatDialog(config);
