@@ -120,8 +120,8 @@ To configure LLM Assistant, get the "Chat Completions Endpoint" for an LLM provi
 | Vendor / Tool | Chat Completions Endpoint | Notes |
 | :--- | :--- | :--- |
 | **Local Servers** | *These run on your own computer.* | |
-| LM Studio | `http://127.0.0.1:1234/v1/chat/completions` | Default for LM Studio.<br>Port may vary if changed in settings. |
-| Ollama | `http://127.0.0.1:11434/v1/chat/completions` | Standard Ollama endpoint.<br>May require an adapter. |
+| LM Studio | `http://127.0.0.1:1234/v1/chat/completions` | LM Studio server default.<br>Port may vary if changed in settings. |
+| Ollama | `http://127.0.0.1:11434/v1/chat/completions` | `ollama` default openAI-compatible endpoint. |
 | llama.cpp | `http://127.0.0.1:8080/v1/chat/completions` | Default for `llama-server`.<br>Port is configurable. |
 | **Cloud Services** | *These are remote services and require an API Key.* | |
 | OpenAI | `https://api.openai.com/v1/chat/completions` | For models like GPT-4o, GPT-4 Turbo.<br>Requires a paid API key. |
