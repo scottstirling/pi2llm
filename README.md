@@ -125,7 +125,7 @@ To configure LLM Assistant, get the "Chat Completions Endpoint" for an LLM provi
 | llama.cpp | `http://127.0.0.1:8080/v1/chat/completions` | Default for `llama-server`.<br>Port is configurable. |
 | **Cloud Services** | *These are remote services and require an API Key.* | |
 | OpenAI | `https://api.openai.com/v1/chat/completions` | For models like GPT-4o, GPT-4 Turbo.<br>Requires a paid API key. |
-| Google AI | `https://generativelanguage.googleapis.com/`<br>`v1beta/openai/chat/completions` | Requires a Google account and API key. |
+| Google AI | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | Requires a Google account and API key. |
 | Anthropic | `https://api.anthropic.com/v1/` | Requires an Anthropic account and API key.<br>The specific model must also be configured. |
 | **API Routers** | *These services provide access to multiple models.* | |
 | OpenRouter.ai | `https://openrouter.ai/api/v1/chat/completions` | Access many models (GPT, Claude, Llama, etc.)<br>with one API key. |
