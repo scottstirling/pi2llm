@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <title>PixInsight Reference Documentation | LLMAssistant</title>
+   <meta name="keywords" content="LLM, AI, integration" />
+   <meta name="author" content="Scott Stirling, scott@stirlingastrophoto.com" />
+   <meta name="description" content="LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work." />
+   <meta name="robots" content="INDEX,FOLLOW" />
+   <meta name="generator" content="PixInsight Documentation Compiler script version 1.7.1" />
+   <meta name="pidoc-document-class" content="PIScriptDoc" />
+   <script type="text/javascript" src="../../pidoc/scripts/pidoc-utility.js"></script>
+   <link type="text/css" href="../../pidoc/css/pidoc-common.css" rel="stylesheet" />
+   <link type="text/css" href="../../pidoc/css/pidoc-highlight.css" rel="stylesheet" />
+   <link type="text/css" href="../../pidoc/css/pidoc-tool.css" rel="stylesheet" />
+   <link rel="icon" href="../../pidoc/icons/pidoc-icon.svg" />
+</head>
+<body>
+<script type="text/javascript">
+   pidoc_generateDynamicContents();
+</script>
+
+<h1>LLMAssistant</h1>
+
+<div id="authors">
+<p>By Scott Stirling, scott@stirlingastrophoto.com</p>
+</div>
+
+<hr class="separator"/>
+
+<div id="brief">
+<p>LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work. <a href="#__contents__">[more]</a></p></div>
+
+<div id="keywords">
+<p><strong>Keywords:</strong> LLM, AI, integration</p>
+</div>
+
+<h3 class="pidoc_sectionTitle" id="__toc__">Contents</h3>
+<p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'toc', this );">[hide]</p>
+<div id="toc">
+<ul>
+<li class="pidoc_tocItem"><a href="#__Description__">1&emsp;Description</a></li>
+<li class="pidoc_tocItem"><a href="#__Parameters__">2&emsp;Parameters</a></li>
+
+<ul>
+<li class="pidoc_tocSubitem"><a href="#__parameter001__">2.1&emsp;LLM URL</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter002__">2.2&emsp;API Key</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter003__">2.3&emsp;Model</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter004__">2.4&emsp;Temperature</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter005__">2.5&emsp;Max Tokens</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter006__">2.6&emsp;Enable Visual Analysis</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter007__">2.7&emsp;Vision max pixels</a></li>
+<li class="pidoc_tocSubitem"><a href="#__parameter008__">2.8&emsp;System Prompt</a></li>
+</ul>
+<li class="pidoc_tocItem"><a href="#__Usage__">3&emsp;Usage</a></li>
+</ul>
+</div>
+
+<div id="__contents__">
+
+<div class="pidoc_section" id="__Description__">
+   <h3 class="pidoc_sectionTitle">1&emsp;Description</h3>
+   <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Description', this );">[hide]</p>
+   <div id="Description">
+<p>TODO description</p>
+   </div>
+</div>
+
+<div class="pidoc_section" id="__Parameters__">
+   <h3 class="pidoc_sectionTitle">2&emsp;Parameters</h3>
+   <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Parameters', this );">[hide]</p>
+   <div id="Parameters">
+      <div id="__parameter001__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.1&emsp;LLM URL</h4>
+<p>Enter the full URL of an LLM's chat completions API endpoint.</p>
+<p>For LM Studio, the default is http://127.0.0.1:1234/v1/chat/completions.</p>
+<p>For Ollama, the default is http://127.0.0.1:11434/v1/chat/completions.</p>
+<p>For a Cloudflare AI Gateway, it will look like https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID_STRING/$API_GATEWAY/workers-ai/$MODEL_PATH where the model is specified in the URL.</p>
+<p>For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.</p>
+</div>
+
+      </div>
+      <div id="__parameter002__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.2&emsp;API Key</h4>
+<p>For local servers, you can typically leave the default &quot;no-key&quot;. For cloud services, enter your API token for your account's authentication.</p>
+</div>
+
+      </div>
+      <div id="__parameter003__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.3&emsp;Model</h4>
+<p>This field is often required by cloud services to specify which model to use, though some vendors put the model name in the URL. It can be left blank for local LLM servers.</p>
+<p>For a Cloudflare AI Gateway, an example might be @cf/meta/llama-4-scout-17b-16e-instruct.</p>
+<p>For Google AI, an example might be gemini-2.0-flash.</p>
+<p>For local servers like llama.cpp and LMStudio where one chat model is running on the default port, this field can be left blank</p>
+</div>
+
+      </div>
+      <div id="__parameter004__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.4&emsp;Temperature</h4>
+<p>Controls the &quot;creativity&quot; and randomness of the LLM's responses. The default is a good starting point and anywhere from 0.8 to 1.2 is normal.</p>
+</div>
+
+      </div>
+      <div id="__parameter005__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.5&emsp;Max Tokens</h4>
+<p>imits the length of the LLM's responses. The maximum tokens supported vary by LLM model and vendor. Chat history counts toward the max token count.</p>
+</div>
+
+      </div>
+      <div id="__parameter006__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.6&emsp;Enable Visual Analysis</h4>
+<p>Option to enable or disable sending image data to the LLM. Default is disabled.</p>
+</div>
+
+      </div>
+      <div id="__parameter007__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.7&emsp;Vision max pixels</h4>
+<p>Set to the maximum supported by the visual LLM, which is referenced if needed to resize the LLM's copy of a selected image. The maximum supported varies by vendor and model. See your vendor's documentation, but safe bets are 1024 for local models and 2048 for remote vendor APIs.</p>
+</div>
+
+      </div>
+      <div id="__parameter008__">
+<div class="pidoc_parameter">
+   <h4 class="pidoc_parameterTitle">2.8&emsp;System Prompt</h4>
+<p>A default system prompt is provided and can be customized to change the assistant's behavior.</p>
+</div>
+
+      </div>
+   </div>
+</div>
+
+<div class="pidoc_section" id="__Usage__">
+   <h3 class="pidoc_sectionTitle">3&emsp;Usage</h3>
+   <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Usage', this );">[hide]</p>
+   <div id="Usage">
+<p>Once configured, using the assistant is a simple interactive process. You may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.</p>
+<p>Open one or more images in your PixInsight workspace. For best results, use images that have been plate-solved with astrometric data and have been saved with processing history and/or XISF or FITS headers.</p>
+<p>Go to Script &gt; Utilities &gt; LLM Assistant to launch the main tool.</p>
+<p>The chat window will appear. See the Configuration section ^ if needed.</p>
+<p>Select a Target Image: Use the dropdown menu at the top left of the window to choose an open image to work on.</p>
+<p>Analyze: Click the &quot;Analyze Selected Image&quot; button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.</p>
+<p>Chat The first response from the LLM will appear. You can now have a conversation: - Ask for recommendations: &quot;What should I do next?&quot; - Ask for clarification: &quot;Explain what DynamicBackgroundExtraction does.&quot; - Ask for a description: &quot;Please write a description for this image for AstroBin.&quot;</p>
+   </div>
+</div>
+
+<hr class="separator"/>
+
+<div id="copyright">
+   <p>Copyright &copy; 2025</p>
+</div>
+
+<div id="footer">
+   <p>Generated by the PixInsight Documentation Compiler script version 1.7.1 on 2025-09-16 13:58:19 UTC</p>
+</div>
+<br/>
+<br/>
+
+</div> <!-- contents -->
+
+</body>
+</html>
