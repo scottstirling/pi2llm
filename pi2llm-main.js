@@ -6,7 +6,7 @@
 // See the LICENSE file for details.
 // =============================================================================
 
-#define VERSION "2.0.0"
+#define VERSION "2.5.0"
 #define TITLE "LLM Assistant"
 
 #feature-id  pi2llm : Utilities > LLM Assistant
@@ -107,45 +107,29 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
                 // 2. if we have a responseObject but failed to find "choices" in JSON,
                 // then try to handle as Cloudflare AI Gateway's simpler format: {"result":{"response":"foo bar baz" ...
                 messageContent = responseObject.result.response;
-            } else {
-                // Now we know it's not a success response, so we parse for known error structures.
-                let errorMessage = "An unknown error occurred.";
+            } else if (responseObject && transfer.responseCode > 200) { // response contains an error message
+                let errorObject = responseObject[0];
+                var error = errorObject.error;
+                var errorMsg = error.message
+                var errorCode = error.code;
+                var errorStatus = error.status;
 
-                // ** THE FIX IS HERE: Check for Ollama-style errors first **
-                // This is for errors like: {"error":{"message":"..."}}
-                if (responseObject.error && typeof responseObject.error === 'object' && responseObject.error.message) {
-                    errorMessage = responseObject.error.message;
-                    // ** THE FIX IS HERE: Then, check for OpenAI-style array errors **
-                    // This is for errors like: [{"error":{"message":"..."}}]
-                } else if (Array.isArray(responseObject) && responseObject.length > 0 && responseObject[0].error) {
-                    errorMessage = responseObject[0].error.message;
-                    // ** THE FIX IS HERE: And for simpler Ollama errors **
-                    // This is for errors like: {"error":"model '...' is not loaded"}
-                } else if (responseObject.error && typeof responseObject.error === 'string') {
-                    errorMessage = responseObject.error;
-                }
-
-                messageContent = "AI Error: " + errorMessage;
-                console.criticalln("Parsed error from LLM backend: ", errorMessage);
+                messageContent = "AI Error: " + errorMsg + ", code: " + errorCode + ", status: " + errorStatus;
             }
             if (onComplete) {
                 onComplete(messageContent);
             }
         } catch (e) {
             let errorMsg = "Error parsing LLM JSON response: " + e.message;
+            messageContent = errorMsg;
             console.criticalln(errorMsg);
-            console.writeln("Raw Response String: ", responseString); // Log the raw string on parse failure
+
             if (onError) {
                 onError(errorMsg);
             }
         }
     } else {
         let errorMsg = "NetworkTransfer POST failed. HTTP Status: " + transfer.responseCode + "\nError Info: " + transfer.errorInformation;
-        // Attempt to read the response body even on network failure, as it often contains useful error details.
-        let responseString = transfer.response.utf8ToString();
-        if (responseString) {
-            errorMsg += "\nResponse Body: " + responseString;
-        }
         console.criticalln(errorMsg);
         if (onError) {
             onError(errorMsg);
@@ -155,23 +139,36 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
     transfer.closeConnection();
 };
 
-// Google api response errors:
+// common api response errors:
 // 1. wrong / non-existent model name:
     // [{"error":{"code":404,"message":"models/foo is not found for API version v1main, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.","status":"NOT_FOUND"}}]
 // 2. no model name supplied:
     // [{"error":{"code":400,"message":"model is not specified","status":"INVALID_ARGUMENT"}}]
 
-// ollama error example:
-// {"error":{"message":"model \"llama3.2\" not found, try pulling it first","type":"api_error","param":null,"code":null}}
 
 function pi2llmMain() {
     console.show();
+
     // don't clear the console and lose all previous messages
     // console.clear();
     console.writeln("--- LLM Assistant Initialized ---");
 
     let config = new Configuration();
     config.load();
+
+    // The  "First Run" check remains.
+    if (config.isFirstRun()) {
+        new MessageBox(
+            "Welcome to LLM Assistant!\n\nThe configuration dialog will open for initial configuration.",
+            TITLE, StdIcon_Information, StdButton_Ok
+        ).execute();
+
+        if (config.launchDialog()) {
+            config.setHasBeenConfigured();
+        } else {
+            return; // Exit if user cancels first-time setup.
+        }
+    }
 
     // Launch the main chat UI.
     let chatDialog = new pi2llmChatDialog(config);
