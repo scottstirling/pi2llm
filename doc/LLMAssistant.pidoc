@@ -15,11 +15,11 @@
 }
 
 \brief {
-   LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work.
+   LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace.
 }
 
 \description {
-   TODO description
+   LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work.
 }
 
 \parameter {  LLM URL } {
