@@ -34,6 +34,14 @@
 
         {For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.}
     }
+    \table[caption,header,unnumbered] {
+        { LLM URL Examples }
+            { {App / Vendor} {URL} {Note} }
+            { { LMStudio } { http://127.0.0.1:1234/v1/chat/completions } { default port and URL for chat completion } }
+            { { Ollama } { http://127.0.0.1:11434/v1/chat/completions } { specify model name as a separate setting } }
+            { { Google API } { https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID_STRING/$API_GATEWAY/workers-ai/$MODEL_PATH } { specify model name in the URL } }
+            { { Cloudflare Gateway } { https://generativelanguage.googleapis.com/v1beta/openai/chat/completions } { specify model name as a separate setting } }
+         }
 }
 \parameter {  API Key } {
     For local servers, you can typically leave the default "no-key".
@@ -43,11 +51,11 @@
 \parameter {  Model } {
     This field is often required by cloud services to specify which model to use, though some vendors put the model name in the URL. It can be left blank for local LLM servers.
 
-    For a Cloudflare AI Gateway, an example might be @cf/meta/llama-4-scout-17b-16e-instruct.
+    For a Cloudflare AI Gateway, an example is @cf/meta/llama-4-scout-17b-16e-instruct, included in the LLM URL path, rather than being named as a separate Model setting.
 
-    For Google AI, an example might be gemini-2.0-flash.
+    For Google AI, an example is gemini-2.0-flash, set in the Model field of the Settings dialog.
 
-    For local servers like llama.cpp and LMStudio where one chat model is running on the default port, this field can be left blank}
+    For local servers such as llamacpp's llama-server and LMStudio where one chat model is run on the default port, this setting can be left blank.  Ollama, on the other hand, requires the model name to be set even if only one instance is running. }
 \parameter {  Temperature } {
   Controls the "creativity" and randomness of the LLM's responses. The default is a good starting point and anywhere from 0.8 to 1.2 is normal.
 }
