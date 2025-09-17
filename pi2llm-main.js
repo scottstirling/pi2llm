@@ -7,9 +7,9 @@
 // =============================================================================
 
 #define VERSION "2.5.0"
-#define TITLE "LLM Assistant"
+#define TITLE "LLMAssistant"
 
-#feature-id  pi2llm : Utilities > LLM Assistant
+#feature-id  LLMAssistant : Utilities > LLMAssistant
 #feature-info "An LLM-powered assistant for PixInsight workflows."
 #feature-icon ":/icons/analyze.png"
 
