@@ -80,7 +80,7 @@ Open one or more images in your PixInsight workspace. For best results, use imag
 
 Go to Script > Utilities > LLM Assistant to launch the main tool.
 
-The chat window will appear. See the Configuration section ^ if needed.
+The chat window will appear.
 
 Select a Target Image:
     Use the dropdown menu at the top left of the window to choose an open image to work on.
@@ -88,7 +88,7 @@ Select a Target Image:
 Analyze:
     Click the "Analyze Selected Image" button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.
 
-Chat The first response from the LLM will appear. You can now have a conversation:
+Chat: The first response from the LLM will appear. You can now have a conversation:
     \list {
         {Ask for recommendations: "What should I do next?"}
         {Ask for clarification: "Explain what DynamicBackgroundExtraction does."}
