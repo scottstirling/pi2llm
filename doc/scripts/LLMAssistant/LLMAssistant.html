@@ -5,7 +5,7 @@
    <title>PixInsight Reference Documentation | LLMAssistant</title>
    <meta name="keywords" content="LLM, AI, integration" />
    <meta name="author" content="Scott Stirling, scott@stirlingastrophoto.com" />
-   <meta name="description" content="LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work." />
+   <meta name="description" content="LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace." />
    <meta name="robots" content="INDEX,FOLLOW" />
    <meta name="generator" content="PixInsight Documentation Compiler script version 1.7.1" />
    <meta name="pidoc-document-class" content="PIScriptDoc" />
@@ -29,7 +29,7 @@
 <hr class="separator"/>
 
 <div id="brief">
-<p>LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work. <a href="#__contents__">[more]</a></p></div>
+<p>LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. <a href="#__contents__">[more]</a></p></div>
 
 <div id="keywords">
 <p><strong>Keywords:</strong> LLM, AI, integration</p>
@@ -62,7 +62,7 @@
    <h3 class="pidoc_sectionTitle">1&emsp;Description</h3>
    <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Description', this );">[hide]</p>
    <div id="Description">
-<p>TODO description</p>
+<p>LLM Assistant for PixInsight integrates chat between a local or cloud-based Large Language Model (LLM) and the PixInsight workspace. It acts as an astrophotography processing assistant, aware of a selected image's data and metadata, to provide advice on next processing steps, help understand the image data, and generate descriptions of finished work.</p>
    </div>
 </div>
 
@@ -74,17 +74,22 @@
 <div class="pidoc_parameter">
    <h4 class="pidoc_parameterTitle">2.1&emsp;LLM URL</h4>
 <p>Enter the full URL of an LLM's chat completions API endpoint.</p>
-<p>For LM Studio, the default is http://127.0.0.1:1234/v1/chat/completions.</p>
-<p>For Ollama, the default is http://127.0.0.1:11434/v1/chat/completions.</p>
-<p>For a Cloudflare AI Gateway, it will look like https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID_STRING/$API_GATEWAY/workers-ai/$MODEL_PATH where the model is specified in the URL.</p>
-<p>For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.</p>
+
+<ul class="pidoc_list">
+<li>For LM Studio, the default is http://127.0.0.1:1234/v1/chat/completions</li>
+<li>For Ollama, the default is http://127.0.0.1:11434/v1/chat/completions</li>
+<li>For a Cloudflare AI Gateway, it will look like https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID_STRING/$API_GATEWAY/workers-ai/$MODEL_PATH where the model is specified in the URL.</li>
+<li>For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.</li>
+</ul>
+
 </div>
 
       </div>
       <div id="__parameter002__">
 <div class="pidoc_parameter">
    <h4 class="pidoc_parameterTitle">2.2&emsp;API Key</h4>
-<p>For local servers, you can typically leave the default &quot;no-key&quot;. For cloud services, enter your API token for your account's authentication.</p>
+<p>For local servers, you can typically leave the default &quot;no-key&quot;.</p>
+<p>For cloud services, enter your API token for your account's authentication.</p>
 </div>
 
       </div>
@@ -140,13 +145,20 @@
    <h3 class="pidoc_sectionTitle">3&emsp;Usage</h3>
    <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Usage', this );">[hide]</p>
    <div id="Usage">
-<p>Once configured, using the assistant is a simple interactive process. You may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.</p>
+<p>Once configured, you may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.</p>
 <p>Open one or more images in your PixInsight workspace. For best results, use images that have been plate-solved with astrometric data and have been saved with processing history and/or XISF or FITS headers.</p>
 <p>Go to Script &gt; Utilities &gt; LLM Assistant to launch the main tool.</p>
 <p>The chat window will appear. See the Configuration section ^ if needed.</p>
 <p>Select a Target Image: Use the dropdown menu at the top left of the window to choose an open image to work on.</p>
 <p>Analyze: Click the &quot;Analyze Selected Image&quot; button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.</p>
-<p>Chat The first response from the LLM will appear. You can now have a conversation: - Ask for recommendations: &quot;What should I do next?&quot; - Ask for clarification: &quot;Explain what DynamicBackgroundExtraction does.&quot; - Ask for a description: &quot;Please write a description for this image for AstroBin.&quot;</p>
+<p>Chat The first response from the LLM will appear. You can now have a conversation:</p>
+
+<ul class="pidoc_list">
+<li>Ask for recommendations: &quot;What should I do next?&quot;</li>
+<li>Ask for clarification: &quot;Explain what DynamicBackgroundExtraction does.&quot;</li>
+<li>Ask for a description: &quot;Please write a description for this image for AstroBin.&quot;</li>
+</ul>
+
    </div>
 </div>
 
@@ -157,7 +169,7 @@
 </div>
 
 <div id="footer">
-   <p>Generated by the PixInsight Documentation Compiler script version 1.7.1 on 2025-09-16 13:58:19 UTC</p>
+   <p>Generated by the PixInsight Documentation Compiler script version 1.7.1 on 2025-09-17 01:31:25 UTC</p>
 </div>
 <br/>
 <br/>

@@ -25,16 +25,20 @@
 \parameter {  LLM URL } {
   Enter the full URL of an LLM's chat completions API endpoint.
 
-    For LM Studio, the default is http://127.0.0.1:1234/v1/chat/completions.
+    \list {
+        {For LM Studio, the default is http://127.0.0.1:1234/v1/chat/completions}
 
-    For Ollama, the default is http://127.0.0.1:11434/v1/chat/completions.
+        {For Ollama, the default is http://127.0.0.1:11434/v1/chat/completions}
 
-    For a Cloudflare AI Gateway, it will look like https://gateway.ai.cloudflare.com/v1/${ACCOUNT_ID_STRING}/${API_GATEWAY}/workers-ai/${MODEL_PATH} where the model is specified in the URL.
+        {For a Cloudflare AI Gateway, it will look like https://gateway.ai.cloudflare.com/v1/${ACCOUNT_ID_STRING}/${API_GATEWAY}/workers-ai/${MODEL_PATH} where the model is specified in the URL.}
 
-    For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.
+        {For a Google AI API, the URL will look like https://generativelanguage.googleapis.com/v1beta/openai/chat/completions and the model is specified as a separate configuration value.}
+    }
 }
 \parameter {  API Key } {
-    For local servers, you can typically leave the default "no-key". For cloud services, enter your API token for your account's authentication.
+    For local servers, you can typically leave the default "no-key".
+
+    For cloud services, enter your API token for your account's authentication.
 }
 \parameter {  Model } {
     This field is often required by cloud services to specify which model to use, though some vendors put the model name in the URL. It can be left blank for local LLM servers.
@@ -62,7 +66,7 @@
 
 
 \usage {
-  Once configured, using the assistant is a simple interactive process. You may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.
+  Once configured, you may begin chatting to the LLM directly through the input text area, using Ctrl+Enter as a keyboard shortcut to Send, or use the Send button.
 
 Open one or more images in your PixInsight workspace. For best results, use images that have been plate-solved with astrometric data and have been saved with processing history and/or XISF or FITS headers.
 
@@ -70,14 +74,18 @@ Go to Script > Utilities > LLM Assistant to launch the main tool.
 
 The chat window will appear. See the Configuration section ^ if needed.
 
-Select a Target Image: Use the dropdown menu at the top left of the window to choose an open image to work on.
+Select a Target Image:
+    Use the dropdown menu at the top left of the window to choose an open image to work on.
 
-Analyze: Click the "Analyze Selected Image" button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.
+Analyze:
+    Click the "Analyze Selected Image" button. The script will gather details about the image and its processing history and send the details to the LLM and, if opted in, a copy of the image as a JPG is sent after being resized to fit the configured maximum dimensions for the LLM API.
 
 Chat The first response from the LLM will appear. You can now have a conversation:
-    - Ask for recommendations: "What should I do next?"
-    - Ask for clarification: "Explain what DynamicBackgroundExtraction does."
-    - Ask for a description: "Please write a description for this image for AstroBin."
+    \list {
+        {Ask for recommendations: "What should I do next?"}
+        {Ask for clarification: "Explain what DynamicBackgroundExtraction does."}
+        {Ask for a description: "Please write a description for this image for AstroBin."}
+    }
 }
 
 \make
