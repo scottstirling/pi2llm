@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XRI stands for XML Repository Information. The XRI format is strict XML 1.0 encoded as UTF-8 plain text. 
+Each PixInsight repository must provide an updates.xri file directly available at the repository URL, 
+no redirections are allowed. -->
+<xri version="1.0">
+   <description>
+      <p>PI2LLM, LLMAssistant update repository.</p>
+   </description>
+   <platform os="all" arch="noarch" version="1.8.9-1:1.9.10">
+      <package fileName="20260304-v3-pi2llm.tar.gz" sha1="4548240a8f36f7fc2d91f9e996092e5036ce1731" type="script" releaseDate="20260304">
+         <title>PI2LLM, LLMAssistant update 2026 March 04</title>
+         <description>
+            <p>
+               This update installs pi2llm via the approved Pixinsight update process, released March 04, 2026.
+            </p>
+            <p>TODO more ...
+               For more information on pi2llm, please refer to:
+            </p>
+            <p>https://stirlingastrophoto.com/posts/llm-assistant-for-pixinsight-v2/</p>
+            <p>
+               Copyright (c) 2026 Stirling Astrophoto. All Rights Reserved.
+            </p>
+         </description>
+      </package>
+   </platform>
+</xri>
+<Signature developerId="ScottStirling" timestamp="2026-03-05T02:00:35.208Z" encoding="Base64">DO+/+V+y9Nvf0h+7bbJ6yvwB8TaJCQIds36C3NSglMFU6KL2qsniY8owa3AAbDXRQlG+jFEl8R+p0JVBJRPvCA==</Signature>
