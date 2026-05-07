@@ -46,3 +46,4 @@ The project ships a working PixInsight script that:
 |---------|-----------|
 | 2026-05-07 (1) | Initial codebase read and analysis; memory bank initialized; `AGENTS.md` created; memory bank updated with full detail. |
 | 2026-05-07 (2) | Anthropic provider support added to `LLMCommunicator` (`isAnthropicUrl`, `adaptPayloadForAnthropic`, header branching, response parsing); `tests/test-anthropic.sh` created; `AGENTS.md` updated with full provider-handling section; memory bank updated. |
+| 2026-05-07 (3) | Removed stale `pi2llm-main.xsgn` — modifying `pi2llm-main.js` invalidated the cryptographic signature; PixInsight rejected the script at load time. Absence of `.xsgn` is valid (development mode); re-signing requires the upstream developer's `.xssk` private key. PR #16 updated. |
