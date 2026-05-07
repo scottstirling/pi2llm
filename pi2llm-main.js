@@ -56,12 +56,61 @@ function isAnthropicUrl(url) {
 }
 
 /**
+ * Converts a single OpenAI-style content block to its Anthropic equivalent.
+ *
+ * OpenAI vision block:
+ *   { "type": "image_url", "image_url": { "url": "data:image/jpeg;base64,<data>", "detail": "high" } }
+ *
+ * Anthropic vision block:
+ *   { "type": "image", "source": { "type": "base64", "media_type": "image/jpeg", "data": "<data>" } }
+ *
+ * Text blocks ({ "type": "text", "text": "..." }) are returned unchanged.
+ * Any unrecognised block type is also returned unchanged.
+ *
+ * @param {object} block  A single content block from an OpenAI messages[] entry.
+ * @returns {object}      The equivalent Anthropic content block.
+ */
+function adaptContentBlockForAnthropic(block) {
+    if (block.type !== "image_url" || !block.image_url) {
+        return block; // text blocks and anything else pass through unchanged
+    }
+
+    // The data URI looks like: "data:image/jpeg;base64,<base64string>"
+    // Parse out the media_type and the raw base64 data.
+    let dataUri   = block.image_url.url || "";
+    let mediaType = "image/jpeg"; // safe default
+    let rawData   = dataUri;
+
+    let commaIdx = dataUri.indexOf(",");
+    if (commaIdx !== -1) {
+        // "data:image/jpeg;base64" → "image/jpeg"
+        let header = dataUri.substring(0, commaIdx);        // "data:image/jpeg;base64"
+        let semicolonIdx = header.indexOf(";");
+        if (semicolonIdx !== -1) {
+            mediaType = header.substring(5, semicolonIdx);  // strip leading "data:"
+        }
+        rawData = dataUri.substring(commaIdx + 1);          // everything after the comma
+    }
+
+    return {
+        "type": "image",
+        "source": {
+            "type":       "base64",
+            "media_type": mediaType,
+            "data":       rawData
+        }
+    };
+}
+
+/**
  * Adapts a standard OpenAI-style payload to the Anthropic Messages API shape.
  *
- * Changes made to a shallow copy of the payload (original is not mutated):
- *   - Pulls the system prompt out of messages[] (where it lives as
- *     {role:"system"}) and places it at the top-level "system" field.
- *     Anthropic rejects a "system" role inside the messages array.
+ * Changes made (original payload is never mutated — new objects are built):
+ *   - Pulls {role:"system"} messages out of messages[] and moves their
+ *     content to the top-level "system" field. Anthropic rejects a system
+ *     role inside the messages array.
+ *   - Converts any OpenAI-style image_url content blocks inside messages[]
+ *     to the Anthropic "image" / "source" / "base64" block format.
  *   - Returns only user/assistant turns in messages[].
  *   - Keeps model, max_tokens, temperature unchanged.
  *   - Drops "stream" (already false; Anthropic ignores unknown fields but
@@ -71,18 +120,37 @@ function isAnthropicUrl(url) {
  * @returns {object}        Anthropic-compatible payload
  */
 function adaptPayloadForAnthropic(payload) {
-    let systemContent = "";
+    let systemContent    = "";
     let filteredMessages = [];
 
     for (let i = 0; i < payload.messages.length; ++i) {
         let msg = payload.messages[i];
+
         if (msg.role === "system") {
             // Concatenate in case multiple system messages exist (defensive).
             if (systemContent.length > 0) systemContent += "\n";
-            systemContent += (typeof msg.content === "string") ? msg.content : JSON.stringify(msg.content);
-        } else {
-            filteredMessages.push(msg);
+            systemContent += (typeof msg.content === "string")
+                ? msg.content
+                : JSON.stringify(msg.content);
+            continue;
         }
+
+        // Convert content blocks for non-system messages.
+        // content can be a plain string (text-only turns) or an array of blocks
+        // (vision turns, where chat_ui.js builds [{type:"text",...},{type:"image_url",...}]).
+        let adaptedContent;
+        if (typeof msg.content === "string") {
+            adaptedContent = msg.content; // plain string — pass through unchanged
+        } else if (Array.isArray(msg.content)) {
+            adaptedContent = [];
+            for (let j = 0; j < msg.content.length; ++j) {
+                adaptedContent.push(adaptContentBlockForAnthropic(msg.content[j]));
+            }
+        } else {
+            adaptedContent = msg.content; // unexpected shape — pass through unchanged
+        }
+
+        filteredMessages.push({ role: msg.role, content: adaptedContent });
     }
 
     let adapted = {
