@@ -114,11 +114,20 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
     let isAnthropic = isAnthropicUrl(this.url);
 
+    // Normalise the URL: strip any trailing slash before use.
+    // Anthropic returns HTTP 307 for /v1/messages/ (with slash) and
+    // NetworkTransfer does NOT follow redirects, leaving an empty response
+    // body that causes JSON.parse to fail.
+    let effectiveUrl = this.url.replace(/\/+$/, "");
+    if (effectiveUrl !== this.url) {
+        console.writeln("Info: trailing slash removed from URL: " + effectiveUrl);
+    }
+
     // Guard: catch the common misconfiguration of using the Anthropic base URL
-    // instead of the Messages endpoint. api.anthropic.com/v1/ returns 403
+    // instead of the Messages endpoint. api.anthropic.com/v1 returns 403
     // "Request not allowed" because that path does not accept POST requests.
     // The correct endpoint is /v1/messages.
-    if (isAnthropic && this.url.indexOf("/v1/messages") === -1) {
+    if (isAnthropic && effectiveUrl.indexOf("/v1/messages") === -1) {
         let hint = "Anthropic URL appears incorrect.\n\n" +
                    "Configured: " + this.url + "\n" +
                    "Required:   https://api.anthropic.com/v1/messages\n\n" +
@@ -158,12 +167,12 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
     let transfer = new NetworkTransfer;
 
-    if ( this.url.indexOf( "https" ) != -1 ) {
+    if ( effectiveUrl.indexOf( "https" ) != -1 ) {
         transfer.setSSL();
     }
     // NOTE: setURL(string) *must* be called prior to setCustomHTTPHeaders(array) because
     // setURL(string) also *resets the headers*.
-    transfer.setURL(this.url);
+    transfer.setURL(effectiveUrl);
     transfer.setConnectionTimeout(60); // unit is seconds
     transfer.setCustomHTTPHeaders(headers);
 
@@ -176,7 +185,7 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
     transfer.response = new ByteArray(); // raw byte array response data receiver
 
-    console.writeln("Sending data to LLM at: " + this.url);
+    console.writeln("Sending data to LLM at: " + effectiveUrl);
 
     if (transfer.post(jsonData)) {
         console.writeln("Successfully received data from LLM. HTTP Status: " + transfer.responseCode);
