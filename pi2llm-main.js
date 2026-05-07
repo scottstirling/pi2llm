@@ -114,6 +114,20 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
 
     let isAnthropic = isAnthropicUrl(this.url);
 
+    // Guard: catch the common misconfiguration of using the Anthropic base URL
+    // instead of the Messages endpoint. api.anthropic.com/v1/ returns 403
+    // "Request not allowed" because that path does not accept POST requests.
+    // The correct endpoint is /v1/messages.
+    if (isAnthropic && this.url.indexOf("/v1/messages") === -1) {
+        let hint = "Anthropic URL appears incorrect.\n\n" +
+                   "Configured: " + this.url + "\n" +
+                   "Required:   https://api.anthropic.com/v1/messages\n\n" +
+                   "Please update the LLM URL in Settings.";
+        console.criticalln(hint);
+        if (onError) onError(hint);
+        return;
+    }
+
     // Anthropic requires a different payload shape; adapt before serialising.
     let effectivePayload = isAnthropic ? adaptPayloadForAnthropic(payload) : payload;
 
