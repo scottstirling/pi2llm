@@ -72,8 +72,6 @@ To add support for a new provider: add a detector function alongside `isAnthropi
 
 ## `cloneView()` Known Issues
 
-- `beginProcess(UndoFlag_NoSwapFile)` is called but `endProcess()` is only called inside the resize `if`-branch. If no resize is needed, `endProcess()` is never called — asymmetry exists in current code.
-- `newWindow.show()` is uncommented (debug left active) — creates a visible temporary window during every vision request. For production, comment it out or add `newWindow.forceClose()`.
 - The cloned window is grayscale-forced (`false` for color parameter) regardless of source — known simplification.
 
 ## Design Patterns
