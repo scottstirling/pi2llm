@@ -1,6 +1,6 @@
 // =============================================================================
 // pi2llm: LLM Assistant integration for PixInsight
-// Copyright (c) 2025 Scott Stirling, StirlingAstrophoto, scott@stirlingastrophoto.com
+// Copyright (c) 2026 Scott Stirling, StirlingAstrophoto, scott@stirlingastrophoto.com
 //
 // Released under the MIT License.
 // See the LICENSE file for details.

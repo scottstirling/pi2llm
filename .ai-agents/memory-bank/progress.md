@@ -32,8 +32,6 @@ The project ships a working PixInsight script that:
 
 | Issue | Location | Severity |
 |-------|----------|----------|
-| `beginProcess` called but `endProcess` only fires in resize branch | `lib/extractors.js` `cloneView()` | Medium — may cause PI undo state issues |
-| `newWindow.show()` uncommented — debug window appears during vision requests | `lib/extractors.js` `cloneView()` | Low — cosmetic, not destructive |
 | Cloned image forced to grayscale (`false`) regardless of source color space | `lib/extractors.js` `cloneView()` | Low — JPEG output still works |
 | `loadProfile()` only restores a subset of config fields | `lib/configuration.js` `ConfigDialog` | Medium — silent data loss on profile load |
 | `test-openai.sh` uses wrong Content-Type (`x-www-form-urlencoded`) | `tests/test-openai.sh` | Low — test script only, not production |
