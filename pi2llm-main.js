@@ -6,7 +6,7 @@
 // See the LICENSE file for details.
 // =============================================================================
 
-#define VERSION "2.5.0"
+#define VERSION "2.6.0"
 #define TITLE "LLMAssistant"
 
 #feature-id  LLMAssistant : Utilities > LLMAssistant
