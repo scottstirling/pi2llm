@@ -7,16 +7,17 @@ no redirections are allowed. -->
       <p>PI2LLM, LLMAssistant update repository.</p>
    </description>
    <platform os="all" arch="noarch" version="1.8.9-1:1.9.10">
-      <package fileName="20260304-v3-pi2llm.tar.gz" sha1="4548240a8f36f7fc2d91f9e996092e5036ce1731" type="script" releaseDate="20260304">
+      <package fileName="2026-05-28-pi2llm.tar.gz" sha1="c3b4fede4758006895ca06a521fd520cfc2cc74f" type="script" releaseDate="20260528">
          <title>PI2LLM, LLMAssistant update 2026 March 04</title>
          <description>
             <p>
-               This update installs pi2llm via the approved Pixinsight update process, released March 04, 2026.
+               This update installs pi2llm via the approved Pixinsight update process, released May 28, 2026. This release fixes some bugs and adds enhancements and corrections for better Anthropic API support.
             </p>
-            <p>TODO more ...
+            <p>
                For more information on pi2llm, please refer to:
             </p>
             <p>https://stirlingastrophoto.com/posts/llm-assistant-for-pixinsight-v2/</p>
+            <p>https://github.com/scottstirling/pi2llm</p>
             <p>
                Copyright (c) 2026 Stirling Astrophoto. All Rights Reserved.
             </p>
@@ -24,4 +25,4 @@ no redirections are allowed. -->
       </package>
    </platform>
 </xri>
-<Signature developerId="ScottStirling" timestamp="2026-03-05T02:00:35.208Z" encoding="Base64">DO+/+V+y9Nvf0h+7bbJ6yvwB8TaJCQIds36C3NSglMFU6KL2qsniY8owa3AAbDXRQlG+jFEl8R+p0JVBJRPvCA==</Signature>
+<Signature developerId="ScottStirling" timestamp="2026-05-28T19:53:12.190Z" encoding="Base64">ExqxxxvSJn1ioiw9NSO49mB+jzy4W5BtP3lMO4pyKf5/LsBnQ3E/eQpWaqErh814/J0nwssRTT8NI/ce+bIUBA==</Signature>
