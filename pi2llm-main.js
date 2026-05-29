@@ -5,8 +5,8 @@
 // Released under the MIT License.
 // See the LICENSE file for details.
 // =============================================================================
-
-#define VERSION "2.6.0"
+#engine v8
+#define VERSION "3.0"
 #define TITLE "LLMAssistant"
 
 #feature-id  LLMAssistant : Utilities > LLMAssistant
