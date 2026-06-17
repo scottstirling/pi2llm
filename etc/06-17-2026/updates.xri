@@ -24,7 +24,7 @@
    <!-- 2. MODERN RELEASE (PixInsight 1.9.4 and Newer)                       -->
    <!-- ===================================================================== -->
    <!-- Serves the new V8 JavaScript script to all OS platforms universally.  -->
-   <platform os="all" arch="noarch" version="1.9.4:">
+   <platform os="all" arch="noarch" version="1.9.4:1.9.10">
       <package fileName="2026-06-17-pi2llm.tar.gz" sha1="0c9f17938e38a75ed95fc7005e5ed2e8b47fac61" type="script" releaseDate="20260617">
          <title>pi2llm (Modern V8 Engine), update 2026 June 17</title>
          <description>
@@ -33,4 +33,4 @@
       </package>
    </platform>
 </xri>
-<Signature developerId="ScottStirling" timestamp="2026-06-17T20:07:00.105Z" encoding="Base64">YSn2nVL+zaoeHOZt7xFoH96Cho12+GP7GkT9BuXonhZAOvJM51ti5KXAUjHRlsso9DGm9go+iIOCE6eQp5d3AQ==</Signature>
+<Signature developerId="ScottStirling" timestamp="2026-06-17T20:34:40.359Z" encoding="Base64">fu3uClHOvyvgDzrce0/0JBxW7yJ50rnlZ1ynjn2qGYEwQqtn1XLkV+zND9G/ixDEjIQ4GSeMmE9P10d6TMwpBg==</Signature>
