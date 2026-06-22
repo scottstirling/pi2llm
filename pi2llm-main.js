@@ -33,7 +33,10 @@ function LLMCommunicator(url, apiKey) {
  */
 function unicodeEscape(jsonString) {
     return jsonString.replace(/[\u007F-\uFFFF]/g, function(chr) {
-        return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4)
+        // String.prototype.substr is a legacy (Annex B) method, deprecated
+        // since ES2015 and scheduled for removal from V8. Use slice(-4)
+        // for forward compatibility.
+        return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4)
     });
 }
 
