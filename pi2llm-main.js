@@ -290,15 +290,24 @@ LLMCommunicator.prototype.sendMessage = function (payload, onComplete, onError) 
             // 3. Cloudflare AI Gateway: {"result":{"response":"..."}}
             } else if (responseObject && responseObject.result) {
                 messageContent = responseObject.result.response;
-            // 4. Generic error array: [{"error":{"code":..., "message":..., "status":...}}]
+            // 4. Generic error response. The body may arrive as either:
+            //      a) An array wrapping the error object (Google PaLM/Gemini
+            //         legacy style): [{"error":{"code":..., "message":..., "status":...}}]
+            //      b) A plain object with an "error" key (OpenAI, Anthropic,
+            //         most OpenAI-compatible providers).
+            //    Unwrap defensively so a non-array body does not crash with
+            //    "Cannot read properties of undefined (reading 'error')".
             } else if (responseObject && transfer.responseCode > 200) {
-                let errorObject = responseObject[0];
-                var error = errorObject.error;
-                var errorMsg = error.message
-                var errorCode = error.code;
-                var errorStatus = error.status;
-
-                messageContent = "AI Error: " + errorMsg + ", code: " + errorCode + ", status: " + errorStatus;
+                let errorObject = Array.isArray(responseObject) ? responseObject[0] : responseObject;
+                let error = (errorObject && errorObject.error) ? errorObject.error : null;
+                if (error) {
+                    let errorMsg = error.message || "(no message)";
+                    let errorCode = (error.code !== undefined) ? error.code : "(no code)";
+                    let errorStatus = error.status || "(no status)";
+                    messageContent = "AI Error: " + errorMsg + ", code: " + errorCode + ", status: " + errorStatus;
+                } else {
+                    messageContent = "AI Error: HTTP " + transfer.responseCode + " (unrecognized error body)";
+                }
             }
             if (onComplete) {
                 onComplete(messageContent);
