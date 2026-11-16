@@ -7,11 +7,30 @@
 // =============================================================================
 #engine v8
 #define VERSION "3.0"
+#ifndef TITLE
 #define TITLE "LLMAssistant"
+#endif
 
 #feature-id  LLMAssistant : Utilities > LLMAssistant
 #feature-info "An LLM-powered assistant for PixInsight workflows."
 #feature-icon ":/icons/analyze.png"
+
+// In the GUI engine, these are globals. In V8, we must define them.
+const StdIcon_Information = 0;
+const StdIcon_Warning     = 1;
+const StdIcon_Error       = 2;
+const StdIcon_Question    = 3;
+
+const StdButton_Ok        = 0;
+const StdButton_Cancel    = 1;
+const StdButton_Yes       = 2;
+const StdButton_No        = 3;
+const StdButton_Abort     = 4;
+const StdButton_Retry     = 5;
+const StdButton_Ignore    = 6;
+const StdButton_All       = 7;
+const StdButton_NoToAll   = 8;
+const StdButton_YesToAll  = 9;
 
 #include "./lib/configuration.js"
 #include "./lib/extractors.js"
